@@ -41,4 +41,13 @@ public class AdPlan {
 
     @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
+
+
+    public AdPlan(Long userId, String planName,
+                  Date startDate, Date endDate) {
+        this.userId = userId;
+        this.planName = planName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }
