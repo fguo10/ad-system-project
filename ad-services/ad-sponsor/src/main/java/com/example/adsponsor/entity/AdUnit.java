@@ -4,7 +4,6 @@ import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
