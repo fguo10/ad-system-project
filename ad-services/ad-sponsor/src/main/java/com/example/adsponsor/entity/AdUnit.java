@@ -4,6 +4,8 @@ import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Data
 @NoArgsConstructor
@@ -34,6 +36,12 @@ public class AdUnit {
 
     @Column(name = "budget", nullable = false)
     private Long budget;
+
+    @Column(name = "create_time", nullable = false)
+    private LocalDateTime createTime;
+
+    @Column(name = "update_time", nullable = false)
+    private LocalDateTime updateTime;
 
     public AdUnit(Long planId, String unitName, Integer unitStatus, Integer positionType, Long budget) {
         this.planId = planId;

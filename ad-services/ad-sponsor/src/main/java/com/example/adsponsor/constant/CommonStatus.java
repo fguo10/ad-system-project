@@ -13,6 +13,4 @@ public enum CommonStatus {
         this.value = value;
     }
 
-
-
 }

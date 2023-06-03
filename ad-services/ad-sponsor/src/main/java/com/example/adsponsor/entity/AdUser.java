@@ -6,10 +6,10 @@ import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @EntityListeners(SharedEntityListener.class)
@@ -30,8 +30,20 @@ public class AdUser {
     @Enumerated(EnumType.ORDINAL)
     private CommonStatus userStatus;
 
-    public AdUser(String username, String token, Integer userStatus) {
+    @Column(name = "create_time", nullable = false)
+    private LocalDateTime createTime;
+
+    @Column(name = "update_time", nullable = false)
+    private LocalDateTime updateTime;
+
+
+    public AdUser() {
+        this.userStatus = CommonStatus.VALID;
+    }
+
+    public AdUser(String username, String token) {
         this.username = username;
         this.token = token;
+        this.userStatus = CommonStatus.VALID;
     }
 }
