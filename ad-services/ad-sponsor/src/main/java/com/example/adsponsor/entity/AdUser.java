@@ -27,8 +27,7 @@ public class AdUser {
     private String token;
 
     @Column(name = "user_status", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private CommonStatus userStatus;
+    private Integer userStatus;
 
     @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;
@@ -38,12 +37,12 @@ public class AdUser {
 
 
     public AdUser() {
-        this.userStatus = CommonStatus.VALID;
+        this.userStatus = CommonStatus.VALID.getStatus();
     }
 
     public AdUser(String username, String token) {
         this.username = username;
         this.token = token;
-        this.userStatus = CommonStatus.VALID;
+        this.userStatus = CommonStatus.VALID.getStatus();
     }
 }
