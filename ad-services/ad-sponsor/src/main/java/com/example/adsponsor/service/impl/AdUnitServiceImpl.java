@@ -62,9 +62,7 @@ public class AdUnitServiceImpl implements AdUnitService {
 
     @Override
     public List<Long> createAdUnitKeyword(List<AdUnitKeyword> adUnitKeywordList) throws AdException {
-        List<Long> unitIds = adUnitKeywordList.stream()
-                .map(AdUnitKeyword::getUnitId)
-                .toList();
+        List<Long> unitIds = adUnitKeywordList.stream().map(AdUnitKeyword::getUnitId).toList();
 
         if (!isRelatedUnitExist(unitIds)) {
             throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
@@ -72,33 +70,74 @@ public class AdUnitServiceImpl implements AdUnitService {
 
         List<Long> savedIds = new ArrayList<>(Collections.emptyList());
 
-        List<AdUnitKeyword> unitKeywords = new ArrayList<>();
         if (!CollectionUtils.isEmpty(adUnitKeywordList)) {
-            adUnitKeywordList.forEach(
-                    i -> {
-                        AdUnitKeyword adUnitKeywordObj = new AdUnitKeyword(i.getUnitId(), i.getKeyword());
-                        AdUnitKeyword savedAdUnitKeyword = unitKeywordRepository.save(adUnitKeywordObj);
-                        savedIds.add(savedAdUnitKeyword.getId());
-                    }
-            );
+            adUnitKeywordList.forEach(i -> {
+                AdUnitKeyword adUnitKeywordObj = new AdUnitKeyword(i.getUnitId(), i.getKeyword());
+                AdUnitKeyword savedAdUnitKeyword = unitKeywordRepository.save(adUnitKeywordObj);
+                savedIds.add(savedAdUnitKeyword.getId());
+            });
         }
         return savedIds;
     }
 
-
     @Override
-    public AdUnit createAdUnitIt(AdUnitIt adUnitIt) throws AdException {
-        return null;
+    public List<Long> createAdUnitIt(List<AdUnitIt> adUnitItList) throws AdException {
+        List<Long> unitIds = adUnitItList.stream().map(AdUnitIt::getUnitId).toList();
+
+        if (!isRelatedUnitExist(unitIds)) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
+
+        if (!CollectionUtils.isEmpty(adUnitItList)) {
+            adUnitItList.forEach(i -> {
+                AdUnitIt adUnitItObj = new AdUnitIt(i.getUnitId(), i.getItTag());
+                AdUnitIt savedAdUnitIt = unitItRepository.save(adUnitItObj);
+                savedIds.add(savedAdUnitIt.getId());
+            });
+        }
+        return savedIds;
     }
 
     @Override
-    public AdUnitDistrict createAdUnitDistrict(AdUnitDistrict adUnitDistrict) throws AdException {
-        return null;
+    public List<Long> createAdUnitDistrict(List<AdUnitDistrict> adUnitDistrictList) throws AdException {
+        List<Long> unitIds = adUnitDistrictList.stream().map(AdUnitDistrict::getUnitId).toList();
+
+        if (!isRelatedUnitExist(unitIds)) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
+
+        if (!CollectionUtils.isEmpty(adUnitDistrictList)) {
+            adUnitDistrictList.forEach(i -> {
+                AdUnitDistrict AdUnitDistrictObj = new AdUnitDistrict(i.getUnitId(), i.getState(), i.getCity());
+                AdUnitDistrict savedAdUnitDistrict = unitDistrictRepository.save(AdUnitDistrictObj);
+                savedIds.add(savedAdUnitDistrict.getId());
+            });
+        }
+        return savedIds;
     }
 
     @Override
-    public CreativeUnit createAdCreativeUnit(CreativeUnit creativeUnit) throws AdException {
-        return null;
+    public List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException {
+        List<Long> unitIds = creativeUnitList.stream().map(CreativeUnit::getUnitId).toList();
+//        List<Long> creativeIds = creativeUnitList.stream().map(CreativeUnit::getCreativeId).toList();
+
+//        if (!isRelatedUnitExist(unitIds) && !isRelatedCreativeExist(creativeIds)) {
+        if (!isRelatedUnitExist(unitIds)) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
+
+        if (!CollectionUtils.isEmpty(creativeUnitList)) {
+            creativeUnitList.forEach(i -> {
+                CreativeUnit creativeUnitObj = new CreativeUnit(i.getCreativeId(), i.getUnitId());
+                CreativeUnit savedcreativeUnit = creativeUnitRepository.save(creativeUnitObj);
+                savedIds.add(savedcreativeUnit.getId());
+            });
+        } return savedIds;
     }
 
 

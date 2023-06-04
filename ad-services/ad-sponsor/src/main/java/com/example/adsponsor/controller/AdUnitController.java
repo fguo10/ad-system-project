@@ -2,7 +2,10 @@ package com.example.adsponsor.controller;
 
 import com.example.adcommon.exception.AdException;
 import com.example.adsponsor.entity.AdUnit;
+import com.example.adsponsor.entity.adunit_condition.AdUnitDistrict;
+import com.example.adsponsor.entity.adunit_condition.AdUnitIt;
 import com.example.adsponsor.entity.adunit_condition.AdUnitKeyword;
+import com.example.adsponsor.entity.adunit_condition.CreativeUnit;
 import com.example.adsponsor.service.AdUnitService;
 import com.example.adsponsor.service.AdUserService;
 import lombok.AllArgsConstructor;
@@ -38,5 +41,27 @@ public class AdUnitController {
         return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
     }
 
+
+    @PostMapping("/unitIt")
+    public ResponseEntity<List<Long>> createUnitIt(@RequestBody List<AdUnitIt> adUnitItList) throws AdException {
+        log.info("ad-sponsor: createUnitIt -> {}", adUnitItList.size());
+        List<Long> savedIds = adUnitService.createAdUnitIt(adUnitItList);
+        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/unitDistrict")
+    public ResponseEntity<List<Long>> createUnitDistrict(@RequestBody List<AdUnitDistrict> adUnitDistrictList) throws AdException {
+        log.info("ad-sponsor: createUnitDistrict -> {}", adUnitDistrictList.size());
+        List<Long> savedIds = adUnitService.createAdUnitDistrict(adUnitDistrictList);
+        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/creativeUnit")
+    public ResponseEntity<List<Long>> createCreativeUnit(@RequestBody List<CreativeUnit> creativeUnitList) throws AdException {
+        log.info("ad-sponsor: createCreativeUnit -> {}", creativeUnitList.size());
+        List<Long> savedIds = adUnitService.createAdCreativeUnit(creativeUnitList);
+        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
+    }
 
 }

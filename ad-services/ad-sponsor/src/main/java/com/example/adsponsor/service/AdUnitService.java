@@ -14,9 +14,10 @@ public interface AdUnitService {
 
     List<Long> createAdUnitKeyword(List<AdUnitKeyword> adUnitKeywords) throws AdException;
 
-    AdUnit createAdUnitIt(AdUnitIt adUnitIt) throws AdException;
+    List<Long> createAdUnitIt(List<AdUnitIt> adUnitItList) throws AdException;
 
-    AdUnitDistrict createAdUnitDistrict(AdUnitDistrict adUnitDistrict) throws AdException;
+    List<Long> createAdUnitDistrict(List<AdUnitDistrict> adUnitDistrict) throws AdException;
 
-    CreativeUnit createAdCreativeUnit(CreativeUnit creativeUnit) throws AdException;
+
+    List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException;
 }
