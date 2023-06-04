@@ -1,5 +1,6 @@
 package com.example.adsponsor.entity;
 
+import com.example.adsponsor.constant.CommonStatus;
 import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,7 +47,7 @@ public class AdUnit {
     public AdUnit(Long planId, String unitName, Integer unitStatus, Integer positionType, Long budget) {
         this.planId = planId;
         this.unitName = unitName;
-        this.unitStatus = unitStatus;
+        this.unitStatus = CommonStatus.VALID.getStatus();
         this.positionType = positionType;
         this.budget = budget;
     }
