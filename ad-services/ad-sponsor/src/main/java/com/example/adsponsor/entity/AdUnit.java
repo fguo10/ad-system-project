@@ -1,5 +1,6 @@
 package com.example.adsponsor.entity;
 
+import com.example.adsponsor.constant.CommonStatus;
 import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,11 +44,24 @@ public class AdUnit {
     @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
 
-    public AdUnit(Long planId, String unitName, Integer unitStatus, Integer positionType, Long budget) {
+    public AdUnit(Long planId, String unitName, Integer positionType, Long budget) {
+        /*
+        {
+            "planId": 123,
+            "unitName": "unitName1",
+            "positionType":"Phone",
+            "budget":1000
+
+        }
+
+         */
+
         this.planId = planId;
         this.unitName = unitName;
-        this.unitStatus = unitStatus;
+        this.unitStatus = CommonStatus.VALID.getStatus();
         this.positionType = positionType;
         this.budget = budget;
+
+
     }
 }
