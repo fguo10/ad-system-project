@@ -122,6 +122,7 @@ public class AdUnitServiceImpl implements AdUnitService {
     @Override
     public List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException {
         List<Long> unitIds = creativeUnitList.stream().map(CreativeUnit::getUnitId).toList();
+        //todo: check creativeIds
 //        List<Long> creativeIds = creativeUnitList.stream().map(CreativeUnit::getCreativeId).toList();
 
 //        if (!isRelatedUnitExist(unitIds) && !isRelatedCreativeExist(creativeIds)) {
