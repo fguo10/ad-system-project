@@ -27,6 +27,6 @@ public class AdUserController {
 
     @GetMapping
     public String hello() {
-        return "Hello";
+        return "Hello1";
     }
 }
