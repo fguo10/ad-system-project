@@ -20,16 +20,16 @@ public class AdUnitDistrict {
     private Long unitId;
 
     
-    @Column(name = "province", nullable = false)
-    private String province;
+    @Column(name = "state", nullable = false)
+    private String state;
 
     
     @Column(name = "city", nullable = false)
     private String city;
 
-    public AdUnitDistrict(Long unitId, String province, String city) {
+    public AdUnitDistrict(Long unitId, String state, String city) {
         this.unitId = unitId;
-        this.province = province;
+        this.state = state;
         this.city = city;
     }
 }
