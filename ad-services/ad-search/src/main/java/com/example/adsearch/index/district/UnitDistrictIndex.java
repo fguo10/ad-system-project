@@ -3,15 +3,12 @@ package com.example.adsearch.index.district;
 import com.example.adsearch.index.IndexAware;
 import com.example.adsearch.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.stream.Collectors;
 
 
 @Slf4j
