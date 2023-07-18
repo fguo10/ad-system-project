@@ -35,7 +35,7 @@ public class SearchImpl implements SearchInterface {
      * @return 广告检索响应对象
      */
     @Override
-    public SearchResponse fetchAds(SearchRequest request) {
+    public SearchResponse fetchCreative(SearchRequest request) {
 
         // 1. 解析广告检索服务的请求信息
         // 1-1. 获取请求的广告位信息
