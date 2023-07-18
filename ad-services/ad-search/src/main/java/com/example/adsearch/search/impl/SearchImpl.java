@@ -66,7 +66,7 @@ public class SearchImpl implements SearchInterface {
 
                 targetUnitIdSet = adUnitIdSet;
             } else {
-                targetUnitIdSet = getORRelationUnitIds(adUnitIdSet, keywordFeature, districtFeature, itFeature);
+                targetUnitIdSet = getORRelationUnitIds(adUnitIdSet, keywordFeature, districtFeature, interestFeature);
             }
 
 
