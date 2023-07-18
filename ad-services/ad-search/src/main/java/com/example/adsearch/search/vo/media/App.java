@@ -1,4 +1,4 @@
-package com.example.adsponsor.search.vo.media;
+package com.example.adsearch.search.vo.media;
 
 import lombok.*;
 

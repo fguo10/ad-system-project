@@ -1,4 +1,4 @@
-package com.example.adsponsor.search.vo.feature;
+package com.example.adsearch.search.vo.feature;
 
 
 import lombok.*;

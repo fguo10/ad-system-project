@@ -1,6 +1,6 @@
-package com.example.adsponsor.search.vo;
+package com.example.adsearch.search.vo;
 
-import com.example.adsponsor.entity.Creative;
+import com.example.adsearch.index.creative.CreativeObject;
 import lombok.*;
 
 import java.util.*;
@@ -32,18 +32,20 @@ public class SearchResponse {
 
         // 点击监测URL列表, L用于跟踪广告被点击的情况，以便进行监测和统计。
         private List<String> clickMonitorUrl = Arrays.asList("www.example.com", "www.example.com");
+
     }
 
     // 转换CreativeObject为Creative对象。
     public static Creative convert(CreativeObject object) {
-        return new Creative(
-                object.getAdId(),
-                object.getAdUrl(),
-                object.getWidth(),
-                object.getHeight(),
-                object.getType(),
-                object.getMaterialType()
-        );
+        Creative creative = new Creative();
+        creative.setAdId(object.getAdId());
+        creative.setAdUrl(object.getAdUrl());
+        creative.setWidth(object.getWidth());
+        creative.setHeight(object.getHeight());
+        creative.setType(object.getType());
+        creative.setMaterialType(object.getMaterialType());
+
+        return creative;
 
     }
 }

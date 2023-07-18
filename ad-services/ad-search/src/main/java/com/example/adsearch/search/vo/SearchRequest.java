@@ -1,7 +1,8 @@
-package com.example.adsponsor.search.vo;
+package com.example.adsearch.search.vo;
 
-import com.example.adsponsor.search.vo.feature.*;
-import com.example.adsponsor.search.vo.media.*;
+
+import com.example.adsearch.search.vo.media.*;
+import com.example.adsearch.search.vo.feature.*;
 import lombok.*;
 
 import java.util.List;
