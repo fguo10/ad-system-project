@@ -6,8 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreativeObject {
-
-
     private Long adId;
     private String name;
     private Integer type;
@@ -27,5 +25,4 @@ public class CreativeObject {
         if (newObject.getAuditStatus() != null) this.auditStatus = newObject.getAuditStatus();
         if (newObject.getAdUrl() != null) this.adUrl = newObject.getAdUrl();
     }
-
 }

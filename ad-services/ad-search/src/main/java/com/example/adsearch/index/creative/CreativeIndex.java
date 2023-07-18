@@ -11,27 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class CreativeIndex implements IndexAware<Long, CreativeObject> {
-    private static Map<Long, CreativeObject> objectMap;
+    // 正向索引
+    private static final Map<Long, CreativeObject> objectMap;
 
+    // 线程安全的Map
     static {
         objectMap = new ConcurrentHashMap<>();
-    }
-
-    public List<CreativeObject> fetch(Collection<Long> adIds) {
-
-        if (CollectionUtils.isEmpty(adIds)) return Collections.emptyList();
-
-        List<CreativeObject> result = new ArrayList<>();
-        adIds.forEach(u -> {
-            CreativeObject object = get(u);
-            if (object == null) {
-                log.error("CreativeObject not found: {}", u);
-                return;
-            }
-            result.add(object);
-        });
-
-        return result;
     }
 
     @Override
