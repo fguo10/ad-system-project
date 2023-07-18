@@ -1,10 +1,13 @@
 package com.example.adsearch.index.district;
 
 import com.example.adsearch.index.IndexAware;
+import com.example.adsearch.search.vo.feature.DistrictFeature;
 import com.example.adsearch.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -68,5 +71,15 @@ public class UnitDistrictIndex implements IndexAware<String, Set<Long>> {
         }
 
         log.info("UnitDistrictIndex, after delete: {}", unitDistrictMap);
+    }
+
+
+    public boolean match(Long adUnitId, List<DistrictFeature.StateAndCity> districts) {
+        Set<String> unitDistrictIds = unitDistrictMap.get(adUnitId);
+        if (CollectionUtils.isNotEmpty(unitDistrictIds)) {
+            List<String> targetDistricts = districts.stream().map(d -> d.getState() + "_" + d.getCity()).toList();
+            return CollectionUtils.isSubCollection(districts, unitDistrictIds);
+        }
+        return false;
     }
 }
