@@ -6,6 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreativeUnitObject {
-    private Long adId;
+    private Long creativeId;
     private Long unitId;
 }

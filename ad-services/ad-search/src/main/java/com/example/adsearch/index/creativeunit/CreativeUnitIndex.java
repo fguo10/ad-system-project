@@ -15,12 +15,15 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @Slf4j
 @Component
 public class CreativeUnitIndex implements IndexAware<String, CreativeUnitObject> {
-    // 正向索引 <adId-unitId, CreativeUnitObject>
-    private static Map<String, CreativeUnitObject> objectMap;
-    // 倒排索引 <adId, unitId Set>
-    private static Map<Long, Set<Long>> creativeUnitMap;
-    // 倒排索引 <unitId, adId set>
-    private static Map<Long, Set<Long>> unitCreativeMap;
+    // Creative和AdUnit是多对多的关系, 创建3个map，便于将来扩展使用
+    // 正向索引: <creativeId-unitId, CreativeUnitObject>
+    private static final Map<String, CreativeUnitObject> objectMap;
+
+    // 倒排索引: <unitId, creativeId set>, 根据adUnitId获取创意id的集合
+    private static final Map<Long, Set<Long>> unitCreativeMap;
+
+    // 倒排索引: <creativeId, unitId Set>, 根据creativeId获取推广单元的id集合。
+    private static final Map<Long, Set<Long>> creativeUnitMap;
 
 
     static {
@@ -38,27 +41,28 @@ public class CreativeUnitIndex implements IndexAware<String, CreativeUnitObject>
     public void add(String key, CreativeUnitObject val) {
         log.info("before add: {}", objectMap);
 
+        // 添加正向索引: <creativeId-unitId, CreativeUnitObject>
         objectMap.put(key, val);
 
-        Set<Long> unitSet = creativeUnitMap.get(val.getAdId());
-        if (CollectionUtils.isEmpty(unitSet)) {
-            unitSet = new ConcurrentSkipListSet<>();
-            creativeUnitMap.put(val.getAdId(), unitSet);
-        }
-        unitSet.add(val.getUnitId());
+        // 添加倒排索引: <creativeId, unitId Set>, 根据creativeId获取推广单元的id集合。
+        Set<Long> unitIdsSet = creativeUnitMap.get(val.getCreativeId());
+        if (CollectionUtils.isEmpty(unitIdsSet))
+            creativeUnitMap.put(val.getCreativeId(), new ConcurrentSkipListSet<>());
+        unitIdsSet.add(val.getUnitId());
 
-        Set<Long> creativeSet = unitCreativeMap.get(val.getUnitId());
-        if (CollectionUtils.isEmpty(creativeSet)) {
-            creativeSet = new ConcurrentSkipListSet<>();
-            unitCreativeMap.put(val.getUnitId(), creativeSet);
+        // 添加倒排索引: <unitId, creativeId set>, 根据adUnitId获取创意id的集合
+        Set<Long> creativeIdsSet = unitCreativeMap.get(val.getUnitId());
+        if (CollectionUtils.isEmpty(creativeIdsSet)) {
+            unitCreativeMap.put(val.getUnitId(), new ConcurrentSkipListSet<>());
         }
-        creativeSet.add(val.getAdId());
+        creativeIdsSet.add(val.getCreativeId());
 
         log.info("after add: {}", objectMap);
     }
 
     @Override
     public void update(String key, CreativeUnitObject val) {
+        // 更新索引的成本非常高(涉及set的遍历)，因此不支持更新。建议: 先删除索引，再添加新的索引。
         log.error("CreativeUnitIndex not support update");
     }
 
@@ -66,37 +70,21 @@ public class CreativeUnitIndex implements IndexAware<String, CreativeUnitObject>
     public void delete(String key, CreativeUnitObject val) {
         log.info("before delete: {}", objectMap);
 
+        // 删除正向索引: <creativeId-unitId, CreativeUnitObject>
         objectMap.remove(key);
 
-        Set<Long> unitSet = creativeUnitMap.get(val.getAdId());
-        if (CollectionUtils.isNotEmpty(unitSet)) {
-            unitSet.remove(val.getUnitId());
+        // 删除倒排索引: <creativeId, unitId Set>, 根据creativeId获取推广单元的id集合。
+        Set<Long> unitIdsSet = creativeUnitMap.get(val.getCreativeId());
+        if (CollectionUtils.isNotEmpty(unitIdsSet)) {
+            unitIdsSet.remove(val.getUnitId());
         }
 
-        Set<Long> creativeSet = unitCreativeMap.get(val.getUnitId());
-        if (CollectionUtils.isNotEmpty(creativeSet)) {
-            creativeSet.remove(val.getAdId());
+        // 删除倒排索引: <unitId, creativeId set>, 根据adUnitId获取创意id的集合
+        Set<Long> creativeIdsSet = unitCreativeMap.get(val.getUnitId());
+        if (CollectionUtils.isNotEmpty(creativeIdsSet)) {
+            creativeIdsSet.remove(val.getCreativeId());
         }
 
         log.info("after delete: {}", objectMap);
-    }
-
-    public List<Long> selectAds(List<AdUnitObject> unitObjects) {
-
-        if (CollectionUtils.isEmpty(unitObjects)) {
-            return Collections.emptyList();
-        }
-
-        List<Long> result = new ArrayList<>();
-
-        for (AdUnitObject unitObject : unitObjects) {
-
-            Set<Long> adIds = unitCreativeMap.get(unitObject.getUnitId());
-            if (CollectionUtils.isNotEmpty(adIds)) {
-                result.addAll(adIds);
-            }
-        }
-
-        return result;
     }
 }
