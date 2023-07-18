@@ -1,7 +1,6 @@
 package com.example.adsponsor.service.mapper;
 
 import com.example.adcommon.dump.table.AdCreativeTable;
-import com.example.adsponsor.entity.AdCreative;
 import com.example.adsponsor.entity.Creative;
 
 

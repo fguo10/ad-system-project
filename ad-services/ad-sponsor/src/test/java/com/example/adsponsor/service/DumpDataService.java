@@ -96,7 +96,7 @@ public class DumpDataService {
         List<Creative> creatives = creativeRepository.findAll();
         if (creatives.isEmpty()) return;
 
-        List<AdCreativeTable> creativeTables = creatives.stream().map(AdCreativeMapper.toTable()).toList();
+        List<AdCreativeTable> creativeTables = creatives.stream().map(AdCreativeMapper::toTable).toList();
 
         writeToFile(creativeTables, filename, AdCreativeTable.class);
     }
