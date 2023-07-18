@@ -17,6 +17,9 @@ import com.example.adsponsor.repository.adunit_condition.AdUnitDistrictRepositor
 import com.example.adsponsor.repository.adunit_condition.AdUnitItRepository;
 import com.example.adsponsor.repository.adunit_condition.AdUnitKeywordRepository;
 import com.example.adsponsor.repository.adunit_condition.CreativeUnitRepository;
+import com.example.adsponsor.service.mapper.AdCreativeMapper;
+import com.example.adsponsor.service.mapper.AdPlanMapper;
+import com.example.adsponsor.service.mapper.AdUnitMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,22 +75,18 @@ public class DumpDataService {
 
     public void dumpAdPlanTable(String filename) {
         List<AdPlan> adPlans = adPlanRepository.findAllByPlanStatus(CommonStatus.VALID.getStatus());
-        if (adPlans == null || adPlans.isEmpty()) {
-            return;
-        }
+        if (adPlans == null || adPlans.isEmpty()) return;
 
-        List<AdPlanTable> planTables = adPlans.stream().map(p -> new AdPlanTable(p.getId(), p.getUserId(), p.getPlanStatus(), p.getStartDate(), p.getEndDate())).toList();
+        List<AdPlanTable> planTables = adPlans.stream().map(AdPlanMapper::toTable).toList();
 
         writeToFile(planTables, filename, AdPlanTable.class);
     }
 
     public void dumpAdUnitTable(String filename) {
         List<AdUnit> adUnits = adUnitRepository.findAllByUnitStatus(CommonStatus.VALID.getStatus());
-        if (adUnits == null || adUnits.isEmpty()) {
-            return;
-        }
+        if (adUnits == null || adUnits.isEmpty()) return;
 
-        List<AdUnitTable> unitTables = adUnits.stream().map(u -> new AdUnitTable(u.getId(), u.getUnitStatus(), u.getPositionType(), u.getPlanId())).toList();
+        List<AdUnitTable> unitTables = adUnits.stream().map(AdUnitMapper::toTable).toList();
 
         writeToFile(unitTables, filename, AdUnitTable.class);
     }
@@ -95,11 +94,9 @@ public class DumpDataService {
 
     public void dumpAdCreativeTable(String filename) {
         List<Creative> creatives = creativeRepository.findAll();
-        if (creatives.isEmpty()) {
-            return;
-        }
+        if (creatives.isEmpty()) return;
 
-        List<AdCreativeTable> creativeTables = creatives.stream().map(c -> new AdCreativeTable(c.getId(), c.getName(), c.getType(), c.getMaterialType(), c.getHeight(), c.getWidth(), c.getAuditStatus(), c.getUrl())).toList();
+        List<AdCreativeTable> creativeTables = creatives.stream().map(AdCreativeMapper.toTable()).toList();
 
         writeToFile(creativeTables, filename, AdCreativeTable.class);
     }
