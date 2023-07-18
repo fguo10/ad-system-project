@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnitItObject {
+public class UnitInterestObject {
     private Long unitId;
     private String itTag;
 }

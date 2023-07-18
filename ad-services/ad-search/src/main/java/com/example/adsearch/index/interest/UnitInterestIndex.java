@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 @Slf4j
 @Component
-public class UnitItIndex implements IndexAware<String, Set<Long>> {
+public class UnitInterestIndex implements IndexAware<String, Set<Long>> {
 
     // 倒排索引 <itTag, adUnitIds set>
     private static final Map<String, Set<Long>> itUnitMap;
