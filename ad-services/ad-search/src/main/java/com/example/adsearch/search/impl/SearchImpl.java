@@ -24,11 +24,16 @@ import java.util.*;
     - fetchAds 方法通过一系列的过滤和筛选操作，将符合条件的广告添加到 adSlot2Ads 中，并返回一个 SearchResponse 对象。
         - getORRelationUnitIds、filterKeywordFeature、filterDistrictFeature 等，用于进行特征的过滤和筛选操作。
         - buildCreativeResponse 方法用于构建广告的响应数据。
-
  */
 @Slf4j
 @Service
 public class SearchImpl implements SearchInterface {
+    /**
+     * 核心函数: 执行广告检索，获取广告创意响应结果
+     *
+     * @param request 广告检索请求对象
+     * @return 广告检索响应对象
+     */
     @Override
     public SearchResponse fetchAds(SearchRequest request) {
 
@@ -65,19 +70,22 @@ public class SearchImpl implements SearchInterface {
             }
 
 
-            //
+            // 根据筛选的AdUnitIds获取AdUnitObjects对象,并筛选出valid的AdUnitObjects对象
             List<AdUnitObject> unitObjects = DataTable.of(AdUnitIndex.class).fetch(targetUnitIdSet);
             filterAdUnitAndPlanStatus(unitObjects, CommonStatus.VALID);
 
-            List<Long> adIds = DataTable.of(CreativeUnitIndex.class).selectAds(unitObjects);
-            List<CreativeObject> creativeObjects = DataTable.of(CreativeIndex.class).fetch(adIds);
+            // 根据AdUnitObjects获取CreativeIds，并最终获得CreativeObjects，这是最终响应需要的内容
+            List<Long> CreativeIds = DataTable.of(CreativeUnitIndex.class).getCreativeByUnitObjects(unitObjects);
+            List<CreativeObject> creativeObjects = DataTable.of(CreativeIndex.class).fetch(CreativeIds);
 
+            //再再过滤： 根据广告位条件过滤创意对象
             filterCreativeByAdSlot(creativeObjects, adSlot.getWidth(), adSlot.getHeight(), adSlot.getType());
 
+            // 构建指定广告位对应随机的符合条件的creativeObject/
             adSlot2Ads.put(adSlot.getAdSlotCode(), buildCreativeResponse(creativeObjects));
         }
-        log.info("fetchAds: {}-{}", JSON.toJSONString(request), JSON.toJSONString(response));
 
+        log.info("build response successfully, request={}, response={}", request.toString(), response.toString());
         return response;
 
     }
@@ -159,6 +167,56 @@ public class SearchImpl implements SearchInterface {
         filterInterestTagFeature(itUnitIdSet, itFeature);
 
         return new HashSet<>(CollectionUtils.union(CollectionUtils.union(keywordUnitIdSet, districtUnitIdSet), itUnitIdSet));
+    }
+
+    /**
+     * 根据过滤广告单元和广告计划状态过滤AdUnit对象
+     *
+     * @param unitObjects 广告单元对象列表
+     * @param status      广告单元和计划的状态
+     */
+    private void filterAdUnitAndPlanStatus(List<AdUnitObject> unitObjects, CommonStatus status) {
+
+        if (CollectionUtils.isEmpty(unitObjects)) return;
+
+        CollectionUtils.filter(unitObjects, object -> object.getUnitStatus().equals(status.getStatus()) && object.getAdPlanObject().getPlanStatus().equals(status.getStatus()));
+    }
+
+
+    /**
+     * 根据广告位条件过滤创意对象
+     *
+     * @param creativeObjects 创意对象列表
+     * @param width           广告位宽度
+     * @param height          广告位高度
+     * @param type            广告位类型列表
+     */
+    private void filterCreativeByAdSlot(List<CreativeObject> creativeObjects, Integer width, Integer height, List<Integer> type) {
+
+        if (CollectionUtils.isEmpty(creativeObjects)) return;
+
+        CollectionUtils.filter(creativeObjects, creative ->
+                creative.getAuditStatus().equals(CommonStatus.VALID.getStatus())
+                        && creative.getWidth().equals(width)
+                        && creative.getHeight().equals(height)
+                        && type.contains(creative.getType())
+        );
+    }
+
+
+    /**
+     * 构建SearchResponse
+     *
+     * @param creativeObjects 创意对象列表
+     * @return 创意响应列表
+     */
+    private List<SearchResponse.Creative> buildCreativeResponse(List<CreativeObject> creativeObjects) {
+
+        if (CollectionUtils.isEmpty(creativeObjects)) return Collections.emptyList();
+
+        // 列表中随机选择一个创意对象作为响应结果
+        CreativeObject randomObject = creativeObjects.get(Math.abs(new Random().nextInt()) % creativeObjects.size());
+        return Collections.singletonList(SearchResponse.convert(randomObject));
     }
 
 }

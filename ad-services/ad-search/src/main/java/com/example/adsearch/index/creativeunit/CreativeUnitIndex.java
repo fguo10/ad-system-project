@@ -87,4 +87,25 @@ public class CreativeUnitIndex implements IndexAware<String, CreativeUnitObject>
 
         log.info("after delete: {}", objectMap);
     }
+
+    /**
+     * 根据广告单元对象获取所有创意ID列表
+     *
+     * @param unitObjects 广告单元对象列表
+     * @return 所有创意ID列表
+     */
+    public List<Long> getCreativeByUnitObjects(List<AdUnitObject> unitObjects) {
+        if (CollectionUtils.isEmpty(unitObjects)) return Collections.emptyList();
+
+        List<Long> allCreativeIds = new ArrayList<>();
+        for (AdUnitObject unitObject : unitObjects) {
+            Set<Long> creativeIds = unitCreativeMap.get(unitObject.getUnitId());
+            if (CollectionUtils.isNotEmpty(creativeIds)) {
+                allCreativeIds.addAll(creativeIds);
+            }
+        }
+        return allCreativeIds;
+    }
+
+
 }

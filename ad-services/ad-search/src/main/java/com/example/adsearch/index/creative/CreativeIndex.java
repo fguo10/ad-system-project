@@ -51,4 +51,23 @@ public class CreativeIndex implements IndexAware<Long, CreativeObject> {
         objectMap.remove(key);
         log.info("after delete: {}", objectMap);
     }
+
+
+    /**
+     * 根据创意ID列表获取创意对象列表
+     *
+     * @param creativeIds 创意ID列表
+     * @return 创意对象列表
+     */
+    public List<CreativeObject> fetch(Collection<Long> creativeIds) {
+        if (CollectionUtils.isEmpty(creativeIds)) return Collections.emptyList();
+
+        List<CreativeObject> creativeObjects = new ArrayList<>();
+
+        for (Long creativeId : creativeIds) {
+            CreativeObject creativeObject = get(creativeId);
+            if (creativeObject != null) creativeObjects.add(creativeObject);
+        }
+        return creativeObjects;
+    }
 }
