@@ -40,12 +40,12 @@ public class UnitKeywordIndex implements IndexAware<String, Set<Long>> {
     public void add(String keyword, Set<Long> unitIds) {
         log.info("UnitKeywordIndex, before add: {}", unitKeywordMap);
 
-        // 倒排索引的更新
+        // 添加倒排索引
         // ConcurrentSkipListSet: thread-safe, implement SortedSet.线程安全的集合。
         Set<Long> unitIdSet = CommonUtils.getOrCreate(keyword, keywordUnitMap, ConcurrentSkipListSet::new);
         unitIdSet.addAll(unitIds);
 
-        // 正向索引的更新
+        // 添加正向索引
         for (Long unitId : unitIds) {
             Set<String> keywordSet = CommonUtils.getOrCreate(unitId, unitKeywordMap, ConcurrentSkipListSet::new);
             keywordSet.add(keyword);
@@ -64,11 +64,11 @@ public class UnitKeywordIndex implements IndexAware<String, Set<Long>> {
     public void delete(String keyword, Set<Long> unitIds) {
         log.info("UnitKeywordIndex, before delete: {}", unitKeywordMap);
 
-        // 倒排索引的删除
+        // 删除倒排索引
         Set<Long> allUnitIds = CommonUtils.getOrCreate(keyword, keywordUnitMap, ConcurrentSkipListSet::new);
         allUnitIds.removeAll(unitIds);
 
-        // 正向索引的删除
+        // 删除正向索引
         for (Long unitId : unitIds) {
             Set<String> keywordSet = CommonUtils.getOrCreate(unitId, unitKeywordMap, ConcurrentSkipListSet::new);
             keywordSet.remove(keyword);

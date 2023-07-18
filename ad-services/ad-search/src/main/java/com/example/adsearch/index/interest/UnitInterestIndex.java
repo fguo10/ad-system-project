@@ -38,11 +38,11 @@ public class UnitInterestIndex implements IndexAware<String, Set<Long>> {
     public void add(String key, Set<Long> val) {
         log.info("UnitItIndex, before add: {}", unitItMap);
 
-        // 倒排索引的更新
+        // 添加倒排索引
         Set<Long> unitIds = CommonUtils.getOrCreate(key, itUnitMap, ConcurrentSkipListSet::new);
         unitIds.addAll(val);
 
-        // 正向索引的更新
+        // 添加正向索引
         for (Long unitId : val) {
             Set<String> its = CommonUtils.getOrCreate(unitId, unitItMap, ConcurrentSkipListSet::new);
             its.add(key);
@@ -61,11 +61,11 @@ public class UnitInterestIndex implements IndexAware<String, Set<Long>> {
     public void delete(String key, Set<Long> val) {
         log.info("UnitItIndex, before delete: {}", unitItMap);
 
-        // 倒排索引的删除
+        // 删除倒排索引
         Set<Long> unitIds = CommonUtils.getOrCreate(key, itUnitMap, ConcurrentSkipListSet::new);
         unitIds.removeAll(val);
 
-        // 正向索引的删除
+        // 删除正向索引
         for (Long unitId : val) {
             Set<String> itTagSet = CommonUtils.getOrCreate(unitId, unitItMap, ConcurrentSkipListSet::new);
             itTagSet.remove(key);
