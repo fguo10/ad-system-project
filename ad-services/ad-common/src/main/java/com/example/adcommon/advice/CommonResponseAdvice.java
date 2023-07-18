@@ -1,6 +1,6 @@
 package com.example.adcommon.advice;
 
-import com.example.adcommon.annotation.IgnoreResponsAdvice;
+import com.example.adcommon.annotation.IgnoreResponseAdvice;
 import com.example.adcommon.responseUtils.CommonResponse;
 import jakarta.annotation.Nullable;
 import org.springframework.core.MethodParameter;
@@ -20,11 +20,11 @@ public class CommonResponseAdvice implements ResponseBodyAdvice<Object> {
     // 是否支持拦截
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
-        if (methodParameter.getDeclaringClass().isAnnotationPresent(IgnoreResponsAdvice.class)) {
+        if (methodParameter.getDeclaringClass().isAnnotationPresent(IgnoreResponseAdvice.class)) {
             return false;
         }
 
-        if (Objects.requireNonNull(methodParameter.getMethod()).isAnnotationPresent(IgnoreResponsAdvice.class)) {
+        if (Objects.requireNonNull(methodParameter.getMethod()).isAnnotationPresent(IgnoreResponseAdvice.class)) {
             return false;
         }
         return true;

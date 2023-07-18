@@ -14,7 +14,6 @@ import java.util.List;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 清空转换器
