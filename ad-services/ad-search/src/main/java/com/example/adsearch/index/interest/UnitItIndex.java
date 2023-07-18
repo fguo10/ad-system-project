@@ -16,14 +16,14 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @Component
 public class UnitItIndex implements IndexAware<String, Set<Long>> {
 
-    // 倒排索引 <itTag, adUnitId set>
+    // 倒排索引 <itTag, adUnitIds set>
     private static final Map<String, Set<Long>> itUnitMap;
 
-    // 正向索引 <unitId, itTag set>
-    private static Map<Long, Set<String>> unitItMap;
+    // 正向索引 <unitId, itTags set>
+    private static final Map<Long, Set<String>> unitItMap;
 
 
-    // thread safe
+    // 线程安全 thread safe
     static {
         itUnitMap = new ConcurrentHashMap<>();
         unitItMap = new ConcurrentHashMap<>();
@@ -36,16 +36,15 @@ public class UnitItIndex implements IndexAware<String, Set<Long>> {
 
     @Override
     public void add(String key, Set<Long> val) {
-
         log.info("UnitItIndex, before add: {}", unitItMap);
 
-        // update 倒排索引
-        Set<Long> unitIds = CommonUtils.getorCreate(key, itUnitMap, ConcurrentSkipListSet::new);
+        // 倒排索引的更新
+        Set<Long> unitIds = CommonUtils.getOrCreate(key, itUnitMap, ConcurrentSkipListSet::new);
         unitIds.addAll(val);
 
-        // update 正向索引
+        // 正向索引的更新
         for (Long unitId : val) {
-            Set<String> its = CommonUtils.getorCreate(unitId, unitItMap, ConcurrentSkipListSet::new);
+            Set<String> its = CommonUtils.getOrCreate(unitId, unitItMap, ConcurrentSkipListSet::new);
             its.add(key);
         }
 
@@ -54,21 +53,21 @@ public class UnitItIndex implements IndexAware<String, Set<Long>> {
 
     @Override
     public void update(String key, Set<Long> val) {
+        // 更新索引的成本非常高(涉及set的遍历)，因此不支持更新。建议: 先删除索引，再添加新的索引。
         log.error("it index can not support update");
     }
 
     @Override
     public void delete(String key, Set<Long> val) {
-
         log.info("UnitItIndex, before delete: {}", unitItMap);
 
-        // delete 倒排索引
-        Set<Long> unitIds = CommonUtils.getorCreate(key, itUnitMap, ConcurrentSkipListSet::new);
+        // 倒排索引的删除
+        Set<Long> unitIds = CommonUtils.getOrCreate(key, itUnitMap, ConcurrentSkipListSet::new);
         unitIds.removeAll(val);
 
-        // delete 正向索引
+        // 正向索引的删除
         for (Long unitId : val) {
-            Set<String> itTagSet = CommonUtils.getorCreate(unitId, unitItMap, ConcurrentSkipListSet::new);
+            Set<String> itTagSet = CommonUtils.getOrCreate(unitId, unitItMap, ConcurrentSkipListSet::new);
             itTagSet.remove(key);
         }
 
@@ -76,6 +75,7 @@ public class UnitItIndex implements IndexAware<String, Set<Long>> {
 
     }
 
+    // 匹配方法: 用于判断adUnit是否包含itTags.
     public boolean match(Long unitId, List<String> itTags) {
         Set<String> unitIts = unitItMap.get(unitId);
 
