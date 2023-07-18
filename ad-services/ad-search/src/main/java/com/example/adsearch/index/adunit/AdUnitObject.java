@@ -2,6 +2,9 @@ package com.example.adsearch.index.adunit;
 
 import com.example.adsearch.index.adplan.AdPlanObject;
 import lombok.*;
+
+import java.util.Objects;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,23 +17,12 @@ public class AdUnitObject {
 
     private AdPlanObject adPlanObject;
 
-    void update(AdUnitObject newObject) {
-
-        if (null != newObject.getUnitId()) {
-            this.unitId = newObject.getUnitId();
-        }
-        if (null != newObject.getUnitStatus()) {
-            this.unitStatus = newObject.getUnitStatus();
-        }
-        if (null != newObject.getPositionType()) {
-            this.positionType = newObject.getPositionType();
-        }
-        if (null != planId) {
-            this.planId = newObject.getPlanId();
-        }
-        if (null != newObject.getAdPlanObject()) {
-            this.adPlanObject = newObject.getAdPlanObject();
-        }
+    void update(AdUnitObject object) {
+        if (Objects.nonNull(object.getPlanId())) this.unitId = object.getUnitId();
+        if (Objects.nonNull(object.getUnitStatus())) this.unitStatus = object.getUnitStatus();
+        if (Objects.nonNull(object.getPositionType())) this.positionType = object.getPositionType();
+        if (Objects.nonNull(object.getPlanId())) this.planId = object.getPlanId();
+        if (Objects.nonNull(object.getAdPlanObject())) this.adPlanObject = object.getAdPlanObject();
     }
 
 }

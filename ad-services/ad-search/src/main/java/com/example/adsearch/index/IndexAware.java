@@ -11,5 +11,4 @@ public interface IndexAware<K, V> {
     void update(K key, V val);
 
     void delete(K key, V val);
-
 }
