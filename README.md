@@ -34,10 +34,10 @@
 
 **用户账户API设计**
 
-| API                                   | Details         | Success Status| 
-|---------------------------------------|-----------------| ------------- |
-| POST /ad_sponsor/api/v1/ad_user       | 创建广告账户,安全角度考虑,密码加密 | 200 |
-| POST /ad_sponsor/api/v1/ad_user/login | 广告账户登录| 200 |
+| API                                  | Details         | Success Status | 
+|--------------------------------------|-----------------|----------------|
+| POST /ad_sponsor/api/v1/ad_plan      | 创建广告账户,安全角度考虑,密码加密 | 201            |
+| GET /ad_sponsor/api/v1/ad_user/login | 广告账户登录| 200            |
 
 请求的参数如下:
 
@@ -45,6 +45,15 @@
 |---------------------------------------|-----------------|-----------------|
 | username     | 账户名 | String|
 | token| token信息,也是密码| String|
+
+
+**推广计划API设计**
+| API                                   | Details         | Success Status|
+|---------------------------------------|-----------------| ------------- |
+| POST /ad_sponsor/api/v1/ad_user       | 创建推广计划,默认status=valid, 自动创建和更新create_time和update_time | 201 |
+| GET /ad_sponsor/api/v1/ad_plan| 搜索推广计划,可以根据userId和adPlanIds搜索| 200 |
+| PUT /ad_sponsor/api/v1/ad_plan/{id}| 更新推广计划,可以根据userId和adPlanIds搜索| 200 |
+| DELETE /ad_sponsor/api/v1/ad_plan/{id}| 删除推广计划| 200 |
 
 
 
