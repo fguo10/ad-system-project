@@ -6,18 +6,18 @@ import com.example.adsponsor.entity.adunit_condition.AdUnitDistrict;
 import com.example.adsponsor.entity.adunit_condition.AdUnitIt;
 import com.example.adsponsor.entity.adunit_condition.AdUnitKeyword;
 import com.example.adsponsor.entity.adunit_condition.CreativeUnit;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface AdUnitService {
     AdUnit createAdUnit(AdUnit adUnit) throws AdException;
 
-    List<Long> createAdUnitKeyword(List<AdUnitKeyword> adUnitKeywords) throws AdException;
+    void createAdUnitKeyword(Long id, List<String> keywordsList) throws AdException;
 
-    List<Long> createAdUnitIt(List<AdUnitIt> adUnitItList) throws AdException;
+    void createAdUnitIt(Long id, List<String> interestsList) throws AdException;
 
-    List<Long> createAdUnitDistrict(List<AdUnitDistrict> adUnitDistrict) throws AdException;
+    void createAdUnitDistrict(Long id, List<String> districtsList) throws AdException;
 
-
-    List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException;
+//    void createAdCreativeUnit(Long id, List<Long> creativeIdsList) throws AdException;
 }

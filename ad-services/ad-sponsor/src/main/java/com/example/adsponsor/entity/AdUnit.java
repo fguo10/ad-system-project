@@ -30,7 +30,7 @@ public class AdUnit {
     private Integer unitStatus;
 
     /**
-     * 广告位类型(开屏, 贴片, 中贴...)
+     * 广告位类型(开屏, 贴片, 中贴...)=== AdUnitConstants.POSITION_TYPE
      */
     @Column(name = "position_type", nullable = false)
     private Integer positionType;
@@ -53,7 +53,6 @@ public class AdUnit {
             "budget":1000
 
         }
-
          */
 
         this.planId = planId;
@@ -61,7 +60,5 @@ public class AdUnit {
         this.unitStatus = CommonStatus.VALID.getStatus();
         this.positionType = positionType;
         this.budget = budget;
-
-
     }
 }
