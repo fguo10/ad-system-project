@@ -1,7 +1,7 @@
 package com.example.adcommon.dump;
 
 public class DumpConstant {
-    public static final String DATA_ROOT_DIR = "mysql_data";
+    public static final String DATA_ROOT_DIR = "mysql_data/";
 
 
     // 各个表数据的存储文件名

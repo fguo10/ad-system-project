@@ -25,6 +25,7 @@ public class Constants {
         public static final String CREATE_SUCCESS = "create success";
         public static final String DELETE_SUCCESS = "delete success";
         public static final String RELATE_SUCCESS = "relate success";
+        public static final String DUMP_SUCCESS = "dump success";
 
 
 

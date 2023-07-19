@@ -1,35 +1,20 @@
-package com.example.adsponsor.service;
+package com.example.adsponsor.service.impl;
 
 import com.example.adcommon.dump.DumpConstant;
 import com.example.adcommon.dump.table.*;
 import com.example.adsponsor.constant.CommonStatus;
-import com.example.adsponsor.entity.AdPlan;
-import com.example.adsponsor.entity.AdUnit;
-import com.example.adsponsor.entity.Creative;
-import com.example.adsponsor.entity.adunit_condition.AdUnitDistrict;
-import com.example.adsponsor.entity.adunit_condition.AdUnitIt;
-import com.example.adsponsor.entity.adunit_condition.AdUnitKeyword;
-import com.example.adsponsor.entity.adunit_condition.CreativeUnit;
-import com.example.adsponsor.repository.AdPlanRepository;
-import com.example.adsponsor.repository.AdUnitRepository;
-import com.example.adsponsor.repository.CreativeRepository;
-import com.example.adsponsor.repository.adunit_condition.AdUnitDistrictRepository;
-import com.example.adsponsor.repository.adunit_condition.AdUnitItRepository;
-import com.example.adsponsor.repository.adunit_condition.AdUnitKeywordRepository;
-import com.example.adsponsor.repository.adunit_condition.CreativeUnitRepository;
-import com.example.adsponsor.service.mapper.AdCreativeMapper;
-import com.example.adsponsor.service.mapper.AdPlanMapper;
-import com.example.adsponsor.service.mapper.AdUnitMapper;
+import com.example.adsponsor.entity.*;
+import com.example.adsponsor.entity.adunit_condition.*;
+import com.example.adsponsor.repository.*;
+import com.example.adsponsor.repository.adunit_condition.*;
+import com.example.adsponsor.service.DumpDataService;
+import com.example.adsponsor.service.mapper.*;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONValue;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,22 +22,15 @@ import java.util.List;
 
 
 @Slf4j
-@TestPropertySource("/application.yml")
-@SpringBootTest
-public class DumpDataService {
-    @Autowired
+@Service
+@AllArgsConstructor
+public class DumpDataServiceImpl implements DumpDataService {
     private AdPlanRepository adPlanRepository;
-    @Autowired
     private AdUnitRepository adUnitRepository;
-    @Autowired
     private CreativeRepository creativeRepository;
-    @Autowired
     private CreativeUnitRepository creativeUnitRepository;
-    @Autowired
     private AdUnitKeywordRepository adUnitKeywordRepository;
-    @Autowired
     private AdUnitItRepository adUnitItRepository;
-    @Autowired
     private AdUnitDistrictRepository adUnitDistrictRepository;
 
 
@@ -148,7 +126,7 @@ public class DumpDataService {
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             for (T item : data) {
                 String itemString;
-                itemString = JSONValue.toJSONString(item);
+                itemString = item.toString();
                 writer.write(itemString);
                 writer.newLine();
             }
