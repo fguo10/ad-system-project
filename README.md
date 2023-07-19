@@ -129,15 +129,16 @@
 
 广告数据索引设计旨在提高广告检索的效率，基于需求，构建正向索引和倒置索引。[代码详情](ad-services%2Fad-search%2Fsrc%2Fmain%2Fjava%2Fcom%2Fexample%2Fadsearch%2Findex)
 - 正向索引通过主键生成与对象的映射关系，比如: 
-  - Map<Long, AdPlanObject>生成id和推广计划对象的映射关系
-  - Map<Long, AdUnitObject>生成id和推广单元对象的映射关系
-  - Map<Long, CreativeObject>生成id和创意对象的映射关系
-  - Map<Long, Set<String>生成id和3个不同维度限制对象的映射关系
-  - Map<String, CreativeUnitObject>, String代表creativeId-unitId的拼接信息，生成和推广单元创意表对象的映射关系。
+  - `Map<Long, AdPlanObject>`生成id和推广计划对象的映射关系
+  - `Map<Long, AdUnitObject>`生成id和推广单元对象的映射关系
+  - `Map<Long, CreativeObject>`生成id和创意对象的映射关系
+  - `Map<Long, Set<String>`生成id和3个不同维度限制对象的映射关系
+  - `Map<String, CreativeUnitObject>` String代表creativeId-unitId的拼接信息，生成和推广单元创意表对象的映射关系。
+
 - 反向索引用于存储在全文搜索下某个单词在一个文档或者一组文档中存储位置的映射关系。
-  - Map<String, Set<Long>> keywordUnitMap: 根据提供的关键词返回关联的推广对象。
-  - Map<String, Set<Long>> districtUnitMap： 根据提供的地域信息返回关联的推广对象。
-  - Map<String, Set<Long>> itUnitMap： 根据提供的兴趣信息返回关联的推广对象。
+  - `Map<String, Set<Long>> keywordUnitMap`: 根据提供的关键词返回关联的推广对象。
+  - `Map<String, Set<Long>> districtUnitMap`： 根据提供的地域信息返回关联的推广对象。
+  - `Map<String, Set<Long>> itUnitMap`： 根据提供的兴趣信息返回关联的推广对象。
 
 ![index-design.png](images%2Findex-design.png)
 
