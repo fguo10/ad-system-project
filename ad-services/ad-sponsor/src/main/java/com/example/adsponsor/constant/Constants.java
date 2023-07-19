@@ -11,5 +11,10 @@ public class Constants {
         public static final String SAME_NAME_PLAN_ERROR = "same name plan error";
 
         public static final String SAME_NAME_UNIT_ERROR = "same name unit error";
+        public static final String INVALID_CREDENTIALS = "invalid credentials";
+        public static final String USER_NOT_FOUND = "user not found";
+
+
+
     }
 }

@@ -1,6 +1,7 @@
 package com.example.adsponsor.controller;
 
 import com.example.adcommon.exception.AdException;
+import com.example.adsponsor.constant.Constants;
 import com.example.adsponsor.entity.AdUser;
 import com.example.adsponsor.service.AdUserService;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 @Slf4j
 @RestController
@@ -25,8 +25,11 @@ public class AdUserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public String hello() {
-        return "Hello1";
+    @GetMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestParam("username") String username, @RequestParam("token") String token) throws AdException {
+        log.info("User login: username={}, token={}", username, token);
+        AdUser loggedInUser = userService.loginUser(username, token);
+        log.info("User login successful: {}", loggedInUser.toString());
+        return new ResponseEntity<>("login success", HttpStatus.OK);
     }
 }

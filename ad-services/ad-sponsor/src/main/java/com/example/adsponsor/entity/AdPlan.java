@@ -27,7 +27,6 @@ public class AdPlan {
     private String planName;
 
     @Column(name = "plan_status", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
     private Integer planStatus;
 
     @Column(name = "start_date", nullable = false)
