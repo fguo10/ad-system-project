@@ -47,6 +47,7 @@ public class AdPlan {
         this.userId = userId;
         this.planName = planName;
         this.startDate = startDate;
+        this.planStatus = CommonStatus.VALID.getStatus();
         this.endDate = endDate;
     }
 }
