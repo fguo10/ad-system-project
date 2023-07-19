@@ -29,6 +29,9 @@
 
 # 高级设计(High-Level Design)
 
+![high-level-design.png](images%2Fhigh-level-design.png)
+
+
 ## API 设计(API Design)
 
 使用RESTful API, 遵循REST 架构规范的应用编程接口（API）, 具体的API设计如下:
@@ -64,17 +67,34 @@
 | POST /ad_sponsor/api/v1/ad_unit/{id}/keywords  | 关联推广单元和关键词限制,每次可关联多个关键字                               | 200            |
 | POST /ad_sponsor/api/v1/ad_unit/{id}/interests | 关联推广单元和兴趣限制,每次可关联多个兴趣标签                               | 200            |
 | POST /ad_sponsor/api/v1/ad_unit/{id}/areas     | 关联推广单元和地域限制 ,每次可关联多个地域                                | 200            |
+| POST /ad_sponsor/api/v1/ad_unit/creatives      | 批量关联推广单元和创意                              | 200            |
 
 **创意API设计**
 
 | API                                 | Details                                             | Success Status |
 |-------------------------------------|-----------------------------------------------------|----------------|
-| POST /ad_sponsor/api/v1/ad_creative | 创建创意,默认status=valid, 自动创建和更新create_time和update_time | 201            |
+| POST /ad_sponsor/api/v1/ad_creative | 创建创意,默认status=valid, 自动创建和更新create_time和update_time | 201  |
 
-## 数据模型(High-level Architecture)
 
-## Data Model
+## 数据模型(Data Model)
 
+**数据模型概述**
+- 用户账户和推广计划是一对多关系。
+- 推广计划和推广单元是一对多关系。
+
+![data-model-1.png](images%2Fdata-model-1.png)
+
+- 推广单元和3个维度的限制(关键词、地域和兴趣)是一对多关系。
+
+![data-model-2.png](images%2Fdata-model-2.png)
+
+- 推广单元和创意是多对多关系。
+
+![data-model-3.png](images%2Fdata-model-3.png)
+
+****
+
+##
 # Deep Dive
 
 ## 广告数据索引设计-Optimize the Ad-search using JVM Index
