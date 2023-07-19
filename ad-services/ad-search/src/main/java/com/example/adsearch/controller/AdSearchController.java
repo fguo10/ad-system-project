@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Slf4j
-@RestController
+@RestController("/api/v1/search")
 public class AdSearchController {
     private final RestTemplate restTemplate;
     private final SearchInterface searchInterface;
@@ -40,7 +40,7 @@ public class AdSearchController {
      * @param request 广告检索请求对象
      * @return 广告检索响应对象
      */
-    @PostMapping("/fetchCreative")
+    @PostMapping
     public SearchResponse fetchCreative(@RequestBody SearchRequest request) {
 
         log.info("ad-search: fetchCreative -> {}", request.toString());

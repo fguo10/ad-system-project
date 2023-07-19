@@ -14,8 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
-import com.alibaba.fastjson.JSON;
+import java.util.function.BiConsumer;
 
 
 /*
@@ -42,7 +41,7 @@ public class IndexFileLoader {
         loadAndHandleDumpData(DumpConstant.AD_UNIT, AdUnitTable.class, AdLevelDataHandler::handleLevel3);
         loadAndHandleDumpData(DumpConstant.AD_CREATIVE_UNIT, AdCreativeUnitTable.class, AdLevelDataHandler::handleLevel3);
         loadAndHandleDumpData(DumpConstant.AD_UNIT_DISTRICT, AdDistrictTable.class, AdLevelDataHandler::handleLevel4);
-        loadAndHandleDumpData(DumpConstant.AD_UNIT_IT, AdUnitInterestTable.class, AdLevelDataHandler::handleLevel4);
+        loadAndHandleDumpData(DumpConstant.AD_UNIT_INTEREST, AdUnitInterestTable.class, AdLevelDataHandler::handleLevel4);
         loadAndHandleDumpData(DumpConstant.AD_UNIT_KEYWORD, AdUnitKeywordTable.class, AdLevelDataHandler::handleLevel4);
 
     }

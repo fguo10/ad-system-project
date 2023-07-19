@@ -31,10 +31,11 @@
 
 ![high-level-design.png](images%2Fhigh-level-design.png)
 
-
 ## API 设计(API Design)
 
 使用RESTful API, 遵循REST 架构规范的应用编程接口（API）, 具体的API设计如下:
+
+### 广告投放系统API设计
 
 **用户账户API设计**
 
@@ -67,18 +68,45 @@
 | POST /ad_sponsor/api/v1/ad_unit/{id}/keywords  | 关联推广单元和关键词限制,每次可关联多个关键字                               | 200            |
 | POST /ad_sponsor/api/v1/ad_unit/{id}/interests | 关联推广单元和兴趣限制,每次可关联多个兴趣标签                               | 200            |
 | POST /ad_sponsor/api/v1/ad_unit/{id}/areas     | 关联推广单元和地域限制 ,每次可关联多个地域                                | 200            |
-| POST /ad_sponsor/api/v1/ad_unit/creatives      | 批量关联推广单元和创意                              | 200            |
+| POST /ad_sponsor/api/v1/ad_unit/creatives      | 批量关联推广单元和创意                                           | 200            |
 
 **创意API设计**
 
 | API                                 | Details                                             | Success Status |
 |-------------------------------------|-----------------------------------------------------|----------------|
-| POST /ad_sponsor/api/v1/ad_creative | 创建创意,默认status=valid, 自动创建和更新create_time和update_time | 201  |
+| POST /ad_sponsor/api/v1/ad_creative | 创建创意,默认status=valid, 自动创建和更新create_time和update_time | 201            |
+
+
+
+### 广告搜索系统API设计
+
+
+| API                               | Details                   | Success Status |
+|-----------------------------------|---------------------------|----------------|
+| POST /ad_search/api/v1/search | 根据媒体方+限制条件返回可以展示在广告位的创意信息 | 200            |
+
+
+请求的字段信息:
+
+| Field    | Description  | Type   |
+|----------|--------------|--------|
+| mediaId | 媒体方的请求标识         | String |
+| RequestInfo   | 请求基本信息 | json   |
+| FeatureInfo   | 匹配信息 | json   |
+
+响应的自段信息:
+
+
+| Field    | Description         | Type |
+|----------|---------------------|------|
+| adSlot2Ads | 根据请求的广告位返回符合条件的创意列表 | json |
+
 
 
 ## 数据模型(Data Model)
 
 **数据模型概述**
+
 - 用户账户和推广计划是一对多关系。
 - 推广计划和推广单元是一对多关系。
 
@@ -92,17 +120,28 @@
 
 ![data-model-3.png](images%2Fdata-model-3.png)
 
-****
 
-##
 # Deep Dive
 
 ## 广告数据索引设计-Optimize the Ad-search using JVM Index
 
-广告数据索引设计旨在提高广告检索的效率，包括以下方面：
 
-- 关键词索引：建立广告文本中关键词的索引，以支持基于关键词的检索。
-- 受众属性索引：建立广告的目标受众属性的索引，以支持基于目标受众属性的检索。
+
+广告数据索引设计旨在提高广告检索的效率，基于需求，构建正向索引和倒置索引。[代码详情](ad-services%2Fad-search%2Fsrc%2Fmain%2Fjava%2Fcom%2Fexample%2Fadsearch%2Findex)
+- 正向索引通过主键生成与对象的映射关系，比如: 
+  - Map<Long, AdPlanObject>生成id和推广计划对象的映射关系
+  - Map<Long, AdUnitObject>生成id和推广单元对象的映射关系
+  - Map<Long, CreativeObject>生成id和创意对象的映射关系
+  - Map<Long, Set<String>生成id和3个不同维度限制对象的映射关系
+  - Map<String, CreativeUnitObject>, String代表creativeId-unitId的拼接信息，生成和推广单元创意表对象的映射关系。
+- 反向索引用于存储在全文搜索下某个单词在一个文档或者一组文档中存储位置的映射关系。
+  - Map<String, Set<Long>> keywordUnitMap: 根据提供的关键词返回关联的推广对象。
+  - Map<String, Set<Long>> districtUnitMap： 根据提供的地域信息返回关联的推广对象。
+  - Map<String, Set<Long>> itUnitMap： 根据提供的兴趣信息返回关联的推广对象。
+
+![index-design.png](images%2Findex-design.png)
+
+
 
 ## ORM服务接口实现
 
