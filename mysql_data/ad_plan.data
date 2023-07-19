@@ -1,0 +1,6 @@
+AdPlanTable(planId=1, userId=9, planStatus=1, startDate=2022-12-31 18:00:00.0, endDate=2023-11-30 18:00:00.0)
+AdPlanTable(planId=2, userId=9, planStatus=1, startDate=2023-05-31 19:00:00.0, endDate=2024-05-31 19:00:00.0)
+AdPlanTable(planId=4, userId=8, planStatus=1, startDate=2023-07-31 19:00:00.0, endDate=2024-08-31 19:00:00.0)
+AdPlanTable(planId=5, userId=8, planStatus=1, startDate=2023-05-31 19:00:00.0, endDate=2024-08-31 19:00:00.0)
+AdPlanTable(planId=6, userId=8, planStatus=1, startDate=2023-09-30 19:00:00.0, endDate=2023-12-31 18:00:00.0)
+AdPlanTable(planId=7, userId=8, planStatus=1, startDate=2023-04-30 19:00:00.0, endDate=2024-08-31 19:00:00.0)
