@@ -28,7 +28,7 @@ public class AdPlan {
 
     @Column(name = "plan_status", nullable = false)
     @Enumerated(EnumType.ORDINAL)
-    private CommonStatus planStatus;
+    private Integer planStatus;
 
     @Column(name = "start_date", nullable = false)
     private Date startDate;
