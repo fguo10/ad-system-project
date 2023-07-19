@@ -1,7 +1,0 @@
-AdCreativeTable(adId=1, name=宝马X5精美大图, type=1, materialType=1, height=675, width=1080, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE1.png)
-AdCreativeTable(adId=2, name=宝马X5精美大图2, type=1, materialType=1, height=1080, width=1728, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE2.png)
-AdCreativeTable(adId=3, name=宝马X6宣传图1, type=1, materialType=1, height=162, width=311, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE2.png)
-AdCreativeTable(adId=4, name=宝马X6宣传图2, type=1, materialType=1, height=400, width=600, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE2.png)
-AdCreativeTable(adId=5, name=宝马X6宣传图3, type=1, materialType=1, height=275, width=183, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE2.png)
-AdCreativeTable(adId=6, name=星巴克宣传物料-生活气息, type=1, materialType=1, height=720, width=1280, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE2.png)
-AdCreativeTable(adId=7, name=星巴克宣传物料-门店广告, type=1, materialType=1, height=1000, width=562, auditStatus=0, adUrl=https://ad-system-test-s3.s3.amazonaws.com/creatives/%E5%AE%9D%E9%A9%ACX5%E5%AE%A3%E4%BC%A0%E5%9B%BE2.png)

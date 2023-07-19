@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import com.alibaba.fastjson.JSON;
 
 @Data
 @AllArgsConstructor
@@ -15,4 +16,8 @@ public class AdPlanTable {
     private Integer planStatus;
     private Date startDate;
     private Date endDate;
+
+    public static AdPlanTable parseFromString(String data) {
+        return JSON.parseObject(data, AdPlanTable.class);
+    }
 }

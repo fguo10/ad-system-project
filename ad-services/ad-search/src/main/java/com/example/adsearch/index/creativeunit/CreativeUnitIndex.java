@@ -46,14 +46,17 @@ public class CreativeUnitIndex implements IndexAware<String, CreativeUnitObject>
 
         // 添加倒排索引: <creativeId, unitId Set>, 根据creativeId获取推广单元的id集合。
         Set<Long> unitIdsSet = creativeUnitMap.get(val.getCreativeId());
-        if (CollectionUtils.isEmpty(unitIdsSet))
-            creativeUnitMap.put(val.getCreativeId(), new ConcurrentSkipListSet<>());
+        if (CollectionUtils.isEmpty(unitIdsSet)) {
+            unitIdsSet = new ConcurrentSkipListSet<>();
+            creativeUnitMap.put(val.getCreativeId(), unitIdsSet);
+        }
         unitIdsSet.add(val.getUnitId());
 
         // 添加倒排索引: <unitId, creativeId set>, 根据adUnitId获取创意id的集合
         Set<Long> creativeIdsSet = unitCreativeMap.get(val.getUnitId());
         if (CollectionUtils.isEmpty(creativeIdsSet)) {
-            unitCreativeMap.put(val.getUnitId(), new ConcurrentSkipListSet<>());
+            creativeIdsSet = new ConcurrentSkipListSet<>();
+            unitCreativeMap.put(val.getUnitId(), creativeIdsSet);
         }
         creativeIdsSet.add(val.getCreativeId());
 

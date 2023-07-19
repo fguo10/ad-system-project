@@ -1,5 +1,6 @@
 package com.example.adsponsor.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.example.adcommon.dump.DumpConstant;
 import com.example.adcommon.dump.table.*;
 import com.example.adsponsor.constant.CommonStatus;
@@ -125,13 +126,12 @@ public class DumpDataServiceImpl implements DumpDataService {
         Path path = Paths.get(filename);
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             for (T item : data) {
-                String itemString;
-                itemString = item.toString();
-                writer.write(itemString);
+                writer.write(JSON.toJSONString(item));
                 writer.newLine();
             }
+            writer.close();
         } catch (IOException ex) {
-            log.error("Dump {} error", filename);
+            log.error("dumpAdUnitTable error {}", ex.getMessage());
         }
     }
 

@@ -1,8 +1,0 @@
-AdDistrictTable(unitId=1, state=陕西, city=西安)
-AdDistrictTable(unitId=1, state=陕西, city=西安)
-AdDistrictTable(unitId=1, state=广东, city=广州)
-AdDistrictTable(unitId=2, state=陕西, city=西安)
-AdDistrictTable(unitId=2, state=, city=北京)
-AdDistrictTable(unitId=2, state=广东, city=广州)
-AdDistrictTable(unitId=9, state=, city=上海)
-AdDistrictTable(unitId=8, state=, city=深圳)

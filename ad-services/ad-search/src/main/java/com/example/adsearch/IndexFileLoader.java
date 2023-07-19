@@ -1,5 +1,6 @@
 package com.example.adsearch;
 
+import com.alibaba.fastjson.JSON;
 import com.example.adcommon.dump.DumpConstant;
 import com.example.adcommon.dump.table.*;
 import com.example.adsearch.handler.AdLevelDataHandler;
@@ -8,7 +9,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +34,6 @@ public class IndexFileLoader {
 
         initDir(DumpConstant.DATA_ROOT_DIR);
 
-        initDir(DumpConstant.DATA_ROOT_DIR);
 
         loadAndHandleDumpData(DumpConstant.AD_PLAN, AdPlanTable.class, AdLevelDataHandler::handleLevel2);
         loadAndHandleDumpData(DumpConstant.AD_CREATIVE, AdCreativeTable.class, AdLevelDataHandler::handleLevel2);
@@ -56,10 +55,13 @@ public class IndexFileLoader {
      */
     private <T> void loadAndHandleDumpData(String fileName, Class<T> tableClass, BiConsumer<T, OperateType> handler) {
         List<String> dumpData = loadDumpData(DumpConstant.DATA_ROOT_DIR + fileName);
-        dumpData.stream()
-                .map(data -> JSON.parseObject(data, tableClass))
-                .forEach(table -> handler.accept(table, OperateType.ADD));
-    }
+        log.info("load data from {}", DumpConstant.DATA_ROOT_DIR + fileName);
+
+        for(String data: dumpData){
+            T table = JSON.parseObject(data, tableClass);
+            handler.accept(table, OperateType.ADD);
+        }
+}
 
 
     /**
