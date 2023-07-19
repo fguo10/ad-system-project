@@ -1,38 +1,45 @@
-
 # 微服务架构设计实现广告系统
 
-本项目旨在实现一个广告系统，其中包括两个核心模块：广告投放系统和广告检索系统。
-
+项目基于Spring Cloud 微服务架构设计实现广告系统，其中包括两个核心模块：广告投放系统(ad-sponsor)和广告检索系统(ad-search)。
 
 ## 功能需求(Functional Requirements)
 
 **广告投放系统**
 
-负责管理广告投放的相关功能，包括用户账户，推广计划，推广单元，创意之间的管理，以及基于推广单元三个维度(关键词,地域和兴趣)的限制表管理。
+负责管理广告投放的相关功能，包括用户账户，推广计划，推广单元，创意之间的管理，并设定推广单元的限制表，以控制广告投放的目标受众。
+限制表管理基于三个维度进行限制：关键词、地域和兴趣。
+- 关键词限制：设定关键词列表，只有在匹配关键词的用户才会看到广告。
+- 地域限制：指定广告投放的地理位置范围，只有在指定地区的用户才会看到广告。
+- 兴趣限制：根据用户的兴趣爱好设定广告投放的目标受众。
 
 ![ad-sponsor-concepts.png](images%2Fad-sponsor-concepts.png)
 
 **广告检索系统**
-媒体方根据限定的条件
+广告检索系统是**媒体方通过添加限定条件**向广告检索系统发起请求来获取符合条件的广告创意信息。广告检索的业务数据流如下图:
+
+![ad-search-workflow.png](images%2Fad-search-workflow.png)
 
 
 ## 非功能性需求(Non-functional requirements)
+- 响应时间：系统应具有快速的响应时间，以确保用户在合理的时间内获得广告内容。
+- 可扩展性：系统应能够根据需求灵活扩展，以适应未来的增长和负载增加。
+- 可用性：系统应保持高可靠性和稳定性，减少系统故障和不可用时间。
+- 可维护性: 系统的代码结构清晰且记录日志和异常信息，以便快速排查和解决问题。
 
-
-# High-Level Design
+# 高级设计(High-Level Design)
 
 ## API 设计(API Design)
 
 
+
 ## 数据模型(High-level Architecture)
 
-
 ## Data Model
-
 
 # Deep Dive
 
 ## 广告数据索引设计-Optimize the Ad-search using JVM Index
+
 广告数据索引设计旨在提高广告检索的效率，包括以下方面：
 
 - 关键词索引：建立广告文本中关键词的索引，以支持基于关键词的检索。
@@ -41,15 +48,10 @@
 ## ORM服务接口实现
 
 ## 响应与异常统一实现
+
 统一实现响应和异常处理，确保系统在遇到异常情况时能够给出适当的响应和处理。
 
-
-
 # 项目部署
-
-
-
-
 
 # Eureka server: service discovery
 
@@ -116,23 +118,23 @@ improved performance and flexibility.
 - 远程服务调用异常类（RemoteServiceException）
 
 # 广告投放系统(Ad delivery system)
+
 ## 数据库表
+
 - 用户账户(ad_user): username, token, user_status, create_time, update_time
-- 推广计划(ad_plan): user_id, plan_name, plan_status, start_date, end_date,  create_time, update_time
-- 推广单元(ad_unit): plan_id, unit_name, unit_status, position_type(广告位类型: 开屏,贴片 etc), budget, create_time, update_time
+- 推广计划(ad_plan): user_id, plan_name, plan_status, start_date, end_date, create_time, update_time
+- 推广单元(ad_unit): plan_id, unit_name, unit_status, position_type(广告位类型: 开屏,贴片 etc), budget, create_time,
+  update_time
 - 维度限制表:
-  - 关键词限制(ad_unit_keyword): unit_id, keyword
-  - 地域限制(ad_unit_district): unit_id, state, city
-  - 兴趣限制(ad_unit_interest)：unit_id, interest_tag
-- 创意(ad_creative): 
+    - 关键词限制(ad_unit_keyword): unit_id, keyword
+    - 地域限制(ad_unit_district): unit_id, state, city
+    - 兴趣限制(ad_unit_interest)：unit_id, interest_tag
+- 创意(ad_creative):
 
 **数据库表关系**: 推广计划和推广单元是一对多关系, 推广单元和创意是多对多关系。
 
-
-
-
-
 ## 思考：广告投放系统的限制维度怎么扩展?
+
 设计一个广告投放系统，其中推广单元有3个维度的限制，关键词、地域和兴趣，根据企业真实情况，限制的维度还有哪些呢？
 
 - 广告主要指定受众群体：企业可能希望将广告仅展示给特定的人群，如特定年龄段、性别、职业等。通过这种方式，广告可以更加精准地针对目标受众，提高广告的效果。
