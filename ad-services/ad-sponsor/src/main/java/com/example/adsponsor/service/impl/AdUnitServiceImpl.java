@@ -61,66 +61,54 @@ public class AdUnitServiceImpl implements AdUnitService {
     }
 
     @Override
-    public List<Long> createAdUnitKeyword(List<AdUnitKeyword> adUnitKeywordList) throws AdException {
-        List<Long> unitIds = adUnitKeywordList.stream().map(AdUnitKeyword::getUnitId).toList();
-
-        if (!isRelatedUnitExist(unitIds)) {
-            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+    public void createAdUnitKeyword(Long id, List<String> keywordsList) throws AdException {
+        Optional<AdUnit> adUnit = unitRepository.findById(id);
+        if(adUnit.isEmpty()){
+            throw new AdException(Constants.ErrorMsg.AD_UNIT_NOT_FOUND);
         }
 
-        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
-
-        if (!CollectionUtils.isEmpty(adUnitKeywordList)) {
-            adUnitKeywordList.forEach(i -> {
-                AdUnitKeyword adUnitKeywordObj = new AdUnitKeyword(i.getUnitId(), i.getKeyword());
-                AdUnitKeyword savedAdUnitKeyword = unitKeywordRepository.save(adUnitKeywordObj);
-                savedIds.add(savedAdUnitKeyword.getId());
-            });
+        for(String keyword: keywordsList){
+            unitKeywordRepository.save(new AdUnitKeyword(id, keyword));
         }
-        return savedIds;
+        log.info("relate ad_unit with keywords: {} - {}", id, keywordsList);
     }
 
     @Override
-    public List<Long> createAdUnitIt(List<AdUnitIt> adUnitItList) throws AdException {
-        List<Long> unitIds = adUnitItList.stream().map(AdUnitIt::getUnitId).toList();
-
-        if (!isRelatedUnitExist(unitIds)) {
-            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+    public void createAdUnitIt(Long id, List<String> interestsList) throws AdException {
+        Optional<AdUnit> adUnit = unitRepository.findById(id);
+        if(adUnit.isEmpty()){
+            throw new AdException(Constants.ErrorMsg.AD_UNIT_NOT_FOUND);
         }
-        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
 
-        if (!CollectionUtils.isEmpty(adUnitItList)) {
-            adUnitItList.forEach(i -> {
-                AdUnitIt adUnitItObj = new AdUnitIt(i.getUnitId(), i.getItTag());
-                AdUnitIt savedAdUnitIt = unitItRepository.save(adUnitItObj);
-                savedIds.add(savedAdUnitIt.getId());
-            });
+        for(String interest: interestsList){
+            unitItRepository.save(new AdUnitIt(id, interest));
         }
-        return savedIds;
+        log.info("relate ad_unit with interests: {} - {}", id, interestsList);
     }
 
     @Override
-    public List<Long> createAdUnitDistrict(List<AdUnitDistrict> adUnitDistrictList) throws AdException {
-        List<Long> unitIds = adUnitDistrictList.stream().map(AdUnitDistrict::getUnitId).toList();
-
-        if (!isRelatedUnitExist(unitIds)) {
-            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+    public void createAdUnitDistrict(Long id, List<String> areasList) throws AdException {
+        Optional<AdUnit> adUnit = unitRepository.findById(id);
+        if(adUnit.isEmpty()){
+            throw new AdException(Constants.ErrorMsg.AD_UNIT_NOT_FOUND);
         }
 
-        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
-
-        if (!CollectionUtils.isEmpty(adUnitDistrictList)) {
-            adUnitDistrictList.forEach(i -> {
-                AdUnitDistrict AdUnitDistrictObj = new AdUnitDistrict(i.getUnitId(), i.getState(), i.getCity());
-                AdUnitDistrict savedAdUnitDistrict = unitDistrictRepository.save(AdUnitDistrictObj);
-                savedIds.add(savedAdUnitDistrict.getId());
-            });
+        for(String area: areasList){
+            // area format: "state_city"
+            String[] areaParts = area.split("_");
+            if (areaParts.length == 2) {
+                unitDistrictRepository.save(new AdUnitDistrict(id, areaParts[0], areaParts[1]));
+            }else{
+                unitDistrictRepository.save(new AdUnitDistrict(id, "", area));
+            }
         }
-        return savedIds;
+        log.info("relate ad_unit with interests: {} - {}", id, areasList);
     }
 
     @Override
+
     public List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException {
+
         List<Long> unitIds = creativeUnitList.stream().map(CreativeUnit::getUnitId).toList();
         //todo: check creativeIds
 //        List<Long> creativeIds = creativeUnitList.stream().map(CreativeUnit::getCreativeId).toList();

@@ -1,6 +1,7 @@
 package com.example.adsponsor.controller;
 
 import com.example.adcommon.exception.AdException;
+import com.example.adsponsor.constant.Constants;
 import com.example.adsponsor.entity.AdUnit;
 import com.example.adsponsor.entity.adunit_condition.AdUnitDistrict;
 import com.example.adsponsor.entity.adunit_condition.AdUnitIt;
@@ -12,10 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,34 +32,34 @@ public class AdUnitController {
         return new ResponseEntity<>(savedAdUnited, HttpStatus.CREATED);
     }
 
-    @PostMapping("/unitKeyword")
-    public ResponseEntity<List<Long>> createUnitKeyword(@RequestBody List<AdUnitKeyword> adUnitKeywordList) throws AdException {
-        log.info("ad-sponsor: createUnitKeyword -> {}", adUnitKeywordList.size());
-        List<Long> savedIds = adUnitService.createAdUnitKeyword(adUnitKeywordList);
-        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
+    @PostMapping("/{id}/keywords")
+    public ResponseEntity<String> createUnitKeyword(@PathVariable Long id, @RequestBody List<String> keywordsList) throws AdException {
+        log.info("ad-sponsor: createUnitKeyword -> {}", keywordsList.size());
+        adUnitService.createAdUnitKeyword(id, keywordsList);
+        return ResponseEntity.ok(Constants.SuccessMsg.RELATE_SUCCESS);
+    }
+
+    @PostMapping("/{id}/interests")
+    public ResponseEntity<String> createUnitIt(@PathVariable Long id, @RequestBody List<String> interestsList) throws AdException {
+        log.info("ad-sponsor: createUnitIt -> {}", interestsList.size());
+        adUnitService.createAdUnitIt(id, interestsList);
+        return ResponseEntity.ok(Constants.SuccessMsg.RELATE_SUCCESS);
+    }
+
+    @PostMapping("/{id}/areas")
+    public ResponseEntity<String> createUnitDistrict(@PathVariable Long id, @RequestBody List<String> areasList) throws AdException {
+        log.info("ad-sponsor: createUnitDistrict -> {}", areasList.size());
+        adUnitService.createAdUnitDistrict(id, areasList);
+        return ResponseEntity.ok(Constants.SuccessMsg.RELATE_SUCCESS);
     }
 
 
-    @PostMapping("/unitIt")
-    public ResponseEntity<List<Long>> createUnitIt(@RequestBody List<AdUnitIt> adUnitItList) throws AdException {
-        log.info("ad-sponsor: createUnitIt -> {}", adUnitItList.size());
-        List<Long> savedIds = adUnitService.createAdUnitIt(adUnitItList);
-        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/unitDistrict")
-    public ResponseEntity<List<Long>> createUnitDistrict(@RequestBody List<AdUnitDistrict> adUnitDistrictList) throws AdException {
-        log.info("ad-sponsor: createUnitDistrict -> {}", adUnitDistrictList.size());
-        List<Long> savedIds = adUnitService.createAdUnitDistrict(adUnitDistrictList);
-        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
-    }
-
-
-    @PostMapping("/creativeUnit")
-    public ResponseEntity<List<Long>> createCreativeUnit(@RequestBody List<CreativeUnit> creativeUnitList) throws AdException {
-        log.info("ad-sponsor: createCreativeUnit -> {}", creativeUnitList.size());
-        List<Long> savedIds = adUnitService.createAdCreativeUnit(creativeUnitList);
-        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
+    @PostMapping("/creatives")
+    public ResponseEntity<String> createCreativeUnit(@RequestBody List<CreativeUnit> creativesList) throws AdException {
+        log.info("ad-sponsor: createCreativeUnit -> {}", creativesList.size());
+        List<Long> savedIds = adUnitService.createAdCreativeUnit(creativesList);
+        log.info("ad-sponsor: createCreativeUnit, savedIds = {}", savedIds);
+        return ResponseEntity.ok(Constants.SuccessMsg.RELATE_SUCCESS);
     }
 
 }

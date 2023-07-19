@@ -1,5 +1,6 @@
 package com.example.adsponsor.entity;
 
+import com.example.adsponsor.constant.AuditStatus;
 import com.example.adsponsor.constant.CommonStatus;
 import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
@@ -77,4 +78,31 @@ public class Creative {
 
     @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
+
+
+    /*
+    {
+        "name":"",
+        "type":,
+        "materialType":,
+        "height":,
+        "width":,
+        "size":
+        "userId":,
+        "url":""
+    }
+
+
+     */
+    public Creative(String name, Integer type, Integer materialType, Integer height, Integer width, Long size, Long userId, String url) {
+        this.name = name;
+        this.type = type;
+        this.materialType = materialType;
+        this.height = height;
+        this.width = width;
+        this.size = size;
+        this.auditStatus = AuditStatus.NOT_AUDIT.getStatus();
+        this.userId = userId;
+        this.url = url;
+    }
 }

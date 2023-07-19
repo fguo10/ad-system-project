@@ -22,4 +22,25 @@ public class CommonUtils {
             throw new AdException(ex.getMessage());
         }
     }
+
+    public static String getExtension(String fileName) {
+        // 获取文件名的后缀
+        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+        // 将后缀转换为小写（可选）
+        fileExtension = fileExtension.toLowerCase();
+        return fileExtension;
+    }
+
+    public static boolean isImage(String fileExtension) {
+//        String fileExtension = getExtension(filename);
+        return fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png");
+    }
+
+    public static boolean isVideo(String fileExtension) {
+//        String fileExtension = getExtension(filename);
+        return fileExtension.equals("mp4") || fileExtension.equals("mov");
+    }
+
+
 }

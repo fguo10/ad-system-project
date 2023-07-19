@@ -1,13 +1,13 @@
 server:
   port: 7000
   servlet:
-    context-path: /ad-sponsor
+    context-path: /ad_sponsor
 
 
 
 spring:
   application:
-    name: eureka-client-ad-sponsor
+    name: AD_SPONSOR
   jpa:
     show-sql: true
     hibernate:

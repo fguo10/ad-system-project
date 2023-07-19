@@ -1,23 +1,18 @@
 package com.example.adsponsor.constant;
 
 import lombok.Getter;
-import lombok.Setter;
-
 
 @Getter
-public enum CommonStatus {
+public enum AuditStatus {
 
-    VALID(1, "VALID"),
-    INVALID(0, "UNVALID");
+    AUDIT(1, "audit"),
+    NOT_AUDIT(0, "not audit");
 
     private final Integer status;
     private final String desc;
 
-    CommonStatus(Integer status, String desc) {
+    AuditStatus(Integer status, String desc) {
         this.status = status;
         this.desc = desc;
     }
 }
-
-
-

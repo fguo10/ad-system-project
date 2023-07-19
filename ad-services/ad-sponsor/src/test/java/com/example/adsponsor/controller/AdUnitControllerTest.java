@@ -26,7 +26,6 @@ public class AdUnitControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @Transactional
     public void testCreateAdUnit() throws Exception {
         String requestBody = "{\"planId\": 1, \"unitName\": \"brand unit\", \"positionType\": 2, \"budget\": 1000}";
 

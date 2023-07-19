@@ -1,13 +1,13 @@
 server:
   port: 7001
   servlet:
-    context-path: /ad-search
+    context-path: /ad_search
 
 
 
 spring:
   application:
-    name: eureka-client-ad-search
+    name: AD_SEARCH
   jpa:
     show-sql: true
     hibernate:
