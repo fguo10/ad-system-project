@@ -1,3 +1,56 @@
+
+# 微服务架构设计实现广告系统
+
+本项目旨在实现一个广告系统，其中包括两个核心模块：广告投放系统和广告检索系统。
+
+
+## 功能需求(Functional Requirements)
+
+**广告投放系统**
+
+负责管理广告投放的相关功能，包括用户账户，推广计划，推广单元，创意之间的管理，以及基于推广单元三个维度(关键词,地域和兴趣)的限制表管理。
+
+![ad-sponsor-concepts.png](images%2Fad-sponsor-concepts.png)
+
+**广告检索系统**
+媒体方根据限定的条件
+
+
+## 非功能性需求(Non-functional requirements)
+
+
+# High-Level Design
+
+## API 设计(API Design)
+
+
+## 数据模型(High-level Architecture)
+
+
+## Data Model
+
+
+# Deep Dive
+
+## 广告数据索引设计-Optimize the Ad-search using JVM Index
+广告数据索引设计旨在提高广告检索的效率，包括以下方面：
+
+- 关键词索引：建立广告文本中关键词的索引，以支持基于关键词的检索。
+- 受众属性索引：建立广告的目标受众属性的索引，以支持基于目标受众属性的检索。
+
+## ORM服务接口实现
+
+## 响应与异常统一实现
+统一实现响应和异常处理，确保系统在遇到异常情况时能够给出适当的响应和处理。
+
+
+
+# 项目部署
+
+
+
+
+
 # Eureka server: service discovery
 
 - port: 8001, 8002, 8003
