@@ -105,10 +105,29 @@ public class AdUnitServiceImpl implements AdUnitService {
         log.info("relate ad_unit with interests: {} - {}", id, areasList);
     }
 
-//    @Override
-//    public List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException {
-//
-//    }
+    @Override
+
+    public List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException {
+
+        List<Long> unitIds = creativeUnitList.stream().map(CreativeUnit::getUnitId).toList();
+        //todo: check creativeIds
+//        List<Long> creativeIds = creativeUnitList.stream().map(CreativeUnit::getCreativeId).toList();
+
+//        if (!isRelatedUnitExist(unitIds) && !isRelatedCreativeExist(creativeIds)) {
+        if (!isRelatedUnitExist(unitIds)) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        List<Long> savedIds = new ArrayList<>(Collections.emptyList());
+
+        if (!CollectionUtils.isEmpty(creativeUnitList)) {
+            creativeUnitList.forEach(i -> {
+                CreativeUnit creativeUnitObj = new CreativeUnit(i.getCreativeId(), i.getUnitId());
+                CreativeUnit savedcreativeUnit = creativeUnitRepository.save(creativeUnitObj);
+                savedIds.add(savedcreativeUnit.getId());
+            });
+        } return savedIds;
+    }
 
 
     private boolean isRelatedUnitExist(List<Long> unitIds) {

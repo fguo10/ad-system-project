@@ -53,12 +53,13 @@ public class AdUnitController {
         return ResponseEntity.ok(Constants.SuccessMsg.RELATE_SUCCESS);
     }
 
-//
-//    @PostMapping("/creatives")
-//    public ResponseEntity<List<Long>> createCreativeUnit(@RequestBody List<CreativeUnit> creativesList) throws AdException {
-//        log.info("ad-sponsor: createCreativeUnit -> {}", creativesList.size());
-//        List<Long> savedIds = adUnitService.createAdCreativeUnit(creativesList);
-//        return new ResponseEntity<>(savedIds, HttpStatus.CREATED);
-//    }
+
+    @PostMapping("/creatives")
+    public ResponseEntity<String> createCreativeUnit(@RequestBody List<CreativeUnit> creativesList) throws AdException {
+        log.info("ad-sponsor: createCreativeUnit -> {}", creativesList.size());
+        List<Long> savedIds = adUnitService.createAdCreativeUnit(creativesList);
+        log.info("ad-sponsor: createCreativeUnit, savedIds = {}", savedIds);
+        return ResponseEntity.ok(Constants.SuccessMsg.RELATE_SUCCESS);
+    }
 
 }

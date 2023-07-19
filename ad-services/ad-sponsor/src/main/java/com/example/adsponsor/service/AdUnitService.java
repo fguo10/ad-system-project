@@ -19,5 +19,5 @@ public interface AdUnitService {
 
     void createAdUnitDistrict(Long id, List<String> districtsList) throws AdException;
 
-//    void createAdCreativeUnit(Long id, List<Long> creativeIdsList) throws AdException;
+    List<Long> createAdCreativeUnit(List<CreativeUnit> creativeUnitList) throws AdException;
 }
