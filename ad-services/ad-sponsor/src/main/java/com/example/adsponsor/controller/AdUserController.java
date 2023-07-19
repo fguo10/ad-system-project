@@ -23,7 +23,7 @@ public class AdUserController {
         log.info("ad-sponsor: createUser -> {}", adUser.toString());
         AdUser savedUser = userService.createUser(adUser);
         log.info("ad-sponsor: createUser successfully -> {}", savedUser.toString());
-        return new ResponseEntity<>("create user success", HttpStatus.CREATED);
+        return new ResponseEntity<>(Constants.SuccessMsg.CREATE_SUCCESS, HttpStatus.CREATED);
     }
 
     @GetMapping("/login")

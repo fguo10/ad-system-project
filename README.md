@@ -8,6 +8,7 @@
 
 负责管理广告投放的相关功能，包括用户账户，推广计划，推广单元，创意之间的管理，并设定推广单元的限制表，以控制广告投放的目标受众。
 限制表管理基于三个维度进行限制：关键词、地域和兴趣。
+
 - 关键词限制：设定关键词列表，只有在匹配关键词的用户才会看到广告。
 - 地域限制：指定广告投放的地理位置范围，只有在指定地区的用户才会看到广告。
 - 兴趣限制：根据用户的兴趣爱好设定广告投放的目标受众。
@@ -19,8 +20,8 @@
 
 ![ad-search-workflow.png](images%2Fad-search-workflow.png)
 
-
 ## 非功能性需求(Non-functional requirements)
+
 - 响应时间：系统应具有快速的响应时间，以确保用户在合理的时间内获得广告内容。
 - 可扩展性：系统应能够根据需求灵活扩展，以适应未来的增长和负载增加。
 - 可用性：系统应保持高可靠性和稳定性，减少系统故障和不可用时间。
@@ -34,28 +35,41 @@
 
 **用户账户API设计**
 
-| API                                  | Details         | Success Status | 
-|--------------------------------------|-----------------|----------------|
+| API                                  | Details            | Success Status | 
+|--------------------------------------|--------------------|----------------|
 | POST /ad_sponsor/api/v1/ad_plan      | 创建广告账户,安全角度考虑,密码加密 | 201            |
-| GET /ad_sponsor/api/v1/ad_user/login | 广告账户登录| 200            |
+| GET /ad_sponsor/api/v1/ad_user/login | 广告账户登录             | 200            |
 
 请求的参数如下:
 
-| Field                                   | Description         | Type |
-|---------------------------------------|-----------------|-----------------|
-| username     | 账户名 | String|
-| token| token信息,也是密码| String|
-
+| Field    | Description  | Type   |
+|----------|--------------|--------|
+| username | 账户名          | String |
+| token    | token信息,也是密码 | String |
 
 **推广计划API设计**
-| API                                   | Details         | Success Status|
-|---------------------------------------|-----------------| ------------- |
-| POST /ad_sponsor/api/v1/ad_user       | 创建推广计划,默认status=valid, 自动创建和更新create_time和update_time | 201 |
-| GET /ad_sponsor/api/v1/ad_plan| 搜索推广计划,可以根据userId和adPlanIds搜索| 200 |
-| PUT /ad_sponsor/api/v1/ad_plan/{id}| 更新推广计划,可以根据userId和adPlanIds搜索| 200 |
-| DELETE /ad_sponsor/api/v1/ad_plan/{id}| 删除推广计划| 200 |
 
+| API                                    | Details                                               | Success Status |
+|----------------------------------------|-------------------------------------------------------|----------------|
+| POST /ad_sponsor/api/v1/ad_user        | 创建推广计划,默认status=valid, 自动创建和更新create_time和update_time | 201            |
+| GET /ad_sponsor/api/v1/ad_plan         | 搜索推广计划,可以根据userId和adPlanIds搜索                         | 200            |
+| PUT /ad_sponsor/api/v1/ad_plan/{id}    | 更新推广计划,可以根据userId和adPlanIds搜索                         | 200            |
+| DELETE /ad_sponsor/api/v1/ad_plan/{id} | 删除推广计划                                                | 200            |
 
+**推广单元API设计**
+
+| API                                            | Details                                               | Success Status |
+|------------------------------------------------|-------------------------------------------------------|----------------|
+| POST /ad_sponsor/api/v1/ad_unit                | 创建推广单元,默认status=valid, 自动创建和更新create_time和update_time | 201            |
+| POST /ad_sponsor/api/v1/ad_unit/{id}/keywords  | 关联推广单元和关键词限制,每次可关联多个关键字                               | 200            |
+| POST /ad_sponsor/api/v1/ad_unit/{id}/interests | 关联推广单元和兴趣限制,每次可关联多个兴趣标签                               | 200            |
+| POST /ad_sponsor/api/v1/ad_unit/{id}/areas     | 关联推广单元和地域限制 ,每次可关联多个地域                                | 200            |
+
+**创意API设计**
+
+| API                                 | Details                                             | Success Status |
+|-------------------------------------|-----------------------------------------------------|----------------|
+| POST /ad_sponsor/api/v1/ad_creative | 创建创意,默认status=valid, 自动创建和更新create_time和update_time | 201            |
 
 ## 数据模型(High-level Architecture)
 
