@@ -30,6 +30,22 @@
 
 ## API 设计(API Design)
 
+使用RESTful API, 遵循REST 架构规范的应用编程接口（API）, 具体的API设计如下:
+
+**用户账户API设计**
+
+| API                                   | Details         | Success Status| 
+|---------------------------------------|-----------------| ------------- |
+| POST /ad_sponsor/api/v1/ad_user       | 创建广告账户,安全角度考虑,密码加密 | 200 |
+| POST /ad_sponsor/api/v1/ad_user/login | 广告账户登录| 200 |
+
+请求的参数如下:
+
+| Field                                   | Description         | Type |
+|---------------------------------------|-----------------|-----------------|
+| username     | 账户名 | String|
+| token| token信息,也是密码| String|
+
 
 
 ## 数据模型(High-level Architecture)

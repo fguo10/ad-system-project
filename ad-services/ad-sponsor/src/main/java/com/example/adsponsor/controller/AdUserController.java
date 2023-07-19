@@ -19,10 +19,11 @@ public class AdUserController {
     private final AdUserService userService;
 
     @PostMapping
-    public ResponseEntity<AdUser> createUser(@RequestBody AdUser adUser) throws AdException {
+    public ResponseEntity<String> createUser(@RequestBody AdUser adUser) throws AdException {
         log.info("ad-sponsor: createUser -> {}", adUser.toString());
         AdUser savedUser = userService.createUser(adUser);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        log.info("ad-sponsor: createUser successfully -> {}", savedUser.toString());
+        return new ResponseEntity<>("create user success", HttpStatus.CREATED);
     }
 
     @GetMapping("/login")
