@@ -57,6 +57,7 @@ public class SearchImpl implements SearchInterface {
 
             // 预过滤: 根据positionType获取初始的AdUnit
             Set<Long> adUnitIdSet = DataTable.of(AdUnitIndex.class).match(adSlot.getPositionType());
+            log.info("first filter, now size = {}", adUnitIdSet.size());
 
             // 再过滤: 根据3个feature信息和关联关系对AdUnit再次过滤，缩小范围
             if (relation == FeatureRelation.AND) {
@@ -69,14 +70,18 @@ public class SearchImpl implements SearchInterface {
                 targetUnitIdSet = getORRelationUnitIds(adUnitIdSet, keywordFeature, districtFeature, interestFeature);
             }
 
+            log.info("second filter, now size = {}", targetUnitIdSet.size());
+
 
             // 根据筛选的AdUnitIds获取AdUnitObjects对象,并筛选出valid的AdUnitObjects对象
             List<AdUnitObject> unitObjects = DataTable.of(AdUnitIndex.class).fetch(targetUnitIdSet);
             filterAdUnitAndPlanStatus(unitObjects, CommonStatus.VALID);
 
+
             // 根据AdUnitObjects获取CreativeIds，并最终获得CreativeObjects，这是最终响应需要的内容
             List<Long> CreativeIds = DataTable.of(CreativeUnitIndex.class).getCreativeByUnitObjects(unitObjects);
             List<CreativeObject> creativeObjects = DataTable.of(CreativeIndex.class).fetch(CreativeIds);
+            log.info("third filter, now size = {}", creativeObjects);
 
             //再再过滤： 根据广告位条件过滤创意对象
             filterCreativeByAdSlot(creativeObjects, adSlot.getWidth(), adSlot.getHeight(), adSlot.getType());

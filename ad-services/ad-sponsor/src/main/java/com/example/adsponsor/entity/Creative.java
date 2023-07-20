@@ -1,13 +1,13 @@
 package com.example.adsponsor.entity;
 
 import com.example.adsponsor.constant.AuditStatus;
-import com.example.adsponsor.constant.CommonStatus;
 import com.example.adsponsor.listeners.SharedEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor

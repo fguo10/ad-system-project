@@ -55,7 +55,7 @@ public class IndexFileLoader {
      */
     private <T> void loadAndHandleDumpData(String fileName, Class<T> tableClass, BiConsumer<T, OperateType> handler) {
         List<String> dumpData = loadDumpData(DumpConstant.DATA_ROOT_DIR + fileName);
-        log.info("load data from {}", DumpConstant.DATA_ROOT_DIR + fileName);
+//        log.info("load data from {}", DumpConstant.DATA_ROOT_DIR + fileName);
 
         for(String data: dumpData){
             T table = JSON.parseObject(data, tableClass);

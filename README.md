@@ -76,32 +76,25 @@
 |-------------------------------------|-----------------------------------------------------|----------------|
 | POST /ad_sponsor/api/v1/ad_creative | 创建创意,默认status=valid, 自动创建和更新create_time和update_time | 201            |
 
-
-
 ### 广告搜索系统API设计
 
-
-| API                               | Details                   | Success Status |
-|-----------------------------------|---------------------------|----------------|
+| API                           | Details                   | Success Status |
+|-------------------------------|---------------------------|----------------|
 | POST /ad_search/api/v1/search | 根据媒体方+限制条件返回可以展示在广告位的创意信息 | 200            |
-
 
 请求的字段信息:
 
-| Field    | Description  | Type   |
-|----------|--------------|--------|
-| mediaId | 媒体方的请求标识         | String |
-| RequestInfo   | 请求基本信息 | json   |
-| FeatureInfo   | 匹配信息 | json   |
+| Field       | Description | Type   |
+|-------------|-------------|--------|
+| mediaId     | 媒体方的请求标识    | String |
+| RequestInfo | 请求基本信息      | json   |
+| FeatureInfo | 匹配信息        | json   |
 
 响应的自段信息:
 
-
-| Field    | Description         | Type |
-|----------|---------------------|------|
+| Field      | Description         | Type |
+|------------|---------------------|------|
 | adSlot2Ads | 根据请求的广告位返回符合条件的创意列表 | json |
-
-
 
 ## 数据模型(Data Model)
 
@@ -120,35 +113,45 @@
 
 ![data-model-3.png](images%2Fdata-model-3.png)
 
-
 # Deep Dive
 
 ## 广告数据索引设计-Optimize the Ad-search using JVM Index
 
-
-
 广告数据索引设计旨在提高广告检索的效率，基于需求，构建正向索引和倒置索引。[代码详情](ad-services%2Fad-search%2Fsrc%2Fmain%2Fjava%2Fcom%2Fexample%2Fadsearch%2Findex)
-- 正向索引通过主键生成与对象的映射关系，比如: 
-  - `Map<Long, AdPlanObject>`生成id和推广计划对象的映射关系
-  - `Map<Long, AdUnitObject>`生成id和推广单元对象的映射关系
-  - `Map<Long, CreativeObject>`生成id和创意对象的映射关系
-  - `Map<Long, Set<String>`生成id和3个不同维度限制对象的映射关系
-  - `Map<String, CreativeUnitObject>` String代表creativeId-unitId的拼接信息，生成和推广单元创意表对象的映射关系。
+
+- 正向索引通过主键生成与对象的映射关系，比如:
+    - `Map<Long, AdPlanObject>`生成id和推广计划对象的映射关系
+    - `Map<Long, AdUnitObject>`生成id和推广单元对象的映射关系
+    - `Map<Long, CreativeObject>`生成id和创意对象的映射关系
+    - `Map<Long, Set<String>`生成id和3个不同维度限制对象的映射关系
+    - `Map<String, CreativeUnitObject>` String代表creativeId-unitId的拼接信息，生成和推广单元创意表对象的映射关系。
 
 - 反向索引用于存储在全文搜索下某个单词在一个文档或者一组文档中存储位置的映射关系。
-  - `Map<String, Set<Long>> keywordUnitMap`: 根据提供的关键词返回关联的推广对象。
-  - `Map<String, Set<Long>> districtUnitMap`： 根据提供的地域信息返回关联的推广对象。
-  - `Map<String, Set<Long>> itUnitMap`： 根据提供的兴趣信息返回关联的推广对象。
+    - `Map<String, Set<Long>> keywordUnitMap`: 根据提供的关键词返回关联的推广对象。
+    - `Map<String, Set<Long>> districtUnitMap`： 根据提供的地域信息返回关联的推广对象。
+    - `Map<String, Set<Long>> itUnitMap`： 根据提供的兴趣信息返回关联的推广对象。
 
 ![index-design.png](images%2Findex-design.png)
 
+## 广告检索系统 – 加载全量索引和增量索引
+
+将全部广告数据加载到系统的索引中，以便在进行广告检索时能够访问和搜索所有的广告信息。工作流如下:
+
+- 导出数据: 广告投放模块(ad-sponsor)的所有广告数据导出到文件中。
+- 全量索引: 对所有的广告数据构建基于JVM的索引，并在每次重启ad-search模块时自动加载。
+- 增量索引：todo, 计划使用mysql Binlog构建增量数据。
+- 构造单例模式的索引缓存工具类
+
+## 广告匹配策略设计
 
 
-## ORM服务接口实现
+
 
 ## 响应与异常统一实现
 
 统一实现响应和异常处理，确保系统在遇到异常情况时能够给出适当的响应和处理。
+
+
 
 # 项目部署
 

@@ -8,31 +8,21 @@ import com.example.adsearch.client.vo.AdPlanGetRequest;
 import com.example.adsearch.search.SearchInterface;
 import com.example.adsearch.search.vo.SearchRequest;
 import com.example.adsearch.search.vo.SearchResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Slf4j
-@RestController("/api/v1/search")
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/v1/search")
 public class AdSearchController {
     private final RestTemplate restTemplate;
     private final SearchInterface searchInterface;
     private final SponsorClient sponsorClient;
-
-    @Autowired
-    public AdSearchController(SearchInterface searchInterface,
-                              RestTemplate restTemplate,
-                              SponsorClient sponsorClient) {
-        this.searchInterface = searchInterface;
-        this.restTemplate = restTemplate;
-        this.sponsorClient = sponsorClient;
-    }
-
 
     /**
      * 执行广告检索，获取广告创意响应结果
